@@ -1,0 +1,414 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar {
+    width: 100%;
+    height: 80px;
+    box-shadow: 0 4px 10px  rgba(0, 0, 0, 0.2);
+}
+
+.navbar .container {
+    height: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+}
+
+.navbar-menu li{
+    display: inline-block;
+}
+
+.navbar-menu li a{
+    display: inline-block;
+    text-decoration: none;
+    background-color: white;
+    font: 300 16px/18px 'Helvetica';
+    color: #53565A;
+}
+
+.navbar-menu li button {
+    background: none;
+    border: none;
+}
+
+.logo {
+    position: absolute;
+    height: 48px;
+    left: 192px;
+    top: 16px;
+}
+
+.add_button {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    right: 669px;
+    top: 22px;
+}
+
+.All_requests {
+    position: absolute;
+    /* width: 102px; */
+    height: 18px;
+    right: 488px;
+    top: 32px;
+}
+
+.My_requests {
+    position: absolute;
+    /* width: 71px; */
+    height: 18px;
+    right: 319px;
+    top: 32px;
+}
+
+.User_logo {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    right: 192px;
+    top: 16px;
+}
+
+.navbar-menu li a:hover{
+    text-decoration: underline;
+}
+
+.navbar-menu li a:active{
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* .navbar-menu li button:hover{
+    text-decoration: underline;
+} */
+
+.navbar-menu li button:active{
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* main */
+
+.Main_content {
+    background-image: url('./images/image1.png');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.Main_content .container {
+    display: flex;
+    height: inherit;
+    justify-content: center;
+}
+
+.Main_heading {
+    position: absolute;
+    height: 152px;
+    left: calc(50% - 606.22px/2 - 0.5px);
+    top: 199px;
+    
+    font-family: 'Antic Didone';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 128px;
+    line-height: 152px;
+    
+    color: #FFFFFF;
+}
+
+.Main_info {
+    position: absolute;
+    width: 1080px;
+    height: 112px;
+    left: calc(50% - 1080px/2);
+    top: 383px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+
+    color: #53565A;
+}
+
+.Sign_in_button {
+    position: absolute;
+    width: 220px;
+    height: 72px;
+    left: calc(50% - 220px/2);
+    top: 532px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #53565A;
+
+    background: #EAFF00;
+    box-shadow: 0px 15px 30px -10px rgba(196, 214, 0, 0.3);
+    border-style: none;
+    border-radius: 60px;
+}
+
+.Sign_in_button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* ---Стили для окна регистрации (входа)--- */
+
+.sign-in {
+    position: absolute;
+    display: none;
+    z-index: 1001;
+    width: 422px;
+    height: 560px;
+    background-color: rgba(234, 255, 0, 1);
+    border-radius: 50px;
+    margin-left: calc(50% - 422px/2);
+    top: 260px;
+}
+
+.sign-in .sign-in_container {
+    height: inherit;
+    width: inherit;
+}
+
+.sign-in_container .Login {
+    height: 68px;
+    width: 422px;
+    background-color: rgba(196, 214, 0, 1);
+    border-radius: 50px 50px 0px 0px;
+}
+
+.Login h1 {
+    padding-left: 162px;
+    padding-top: 15px;
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 37px;
+    color: #FFFFFF;
+}
+
+.User {
+    padding-top: 22px;
+    padding-left: 21px;
+}
+
+.sign-in input[type="text"], .sign-in input[type="password"] {
+    border-radius: 50px;
+    background-color: hsl(0, 0%, 100%);
+    width: 380px;
+    height: 42px;
+    border: none;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+
+    color: #75787B;
+}
+
+.sign-in input[type="password"] {
+    margin-top: 16px;
+}
+
+.Submit {
+    margin-top: 16px;
+    width: 380px;
+    height: 42px;
+
+    background: #53565A;
+    border-radius: 50px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+
+    color: #FFFFFF;
+}
+
+#forgot_pass {
+    margin-top: 16px;
+    margin-left: 125px;
+
+    display: flex;
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: none;
+
+    color: #53565A;
+}
+
+#No_acc {
+    margin-top: 98px;
+    margin-left: 105px;
+
+    background: none;
+    border: none;
+    display: flex;
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: none;
+
+    color: #53565A;
+
+}
+
+.plane-img {
+    width: 225px;
+    height: 113px;
+    margin-top: 17px;
+    margin-left: 77px;
+}
+
+/* ---Стили для окна регистрации (регистрации учетки)--- */
+
+
+.sign-up {
+    position: absolute;
+    display: none;
+    z-index: 1001;
+    width: 422px;
+    height: 560px;
+    background-color: rgba(234, 255, 0, 1);
+    border-radius: 50px;
+    margin-left: calc(50% - 422px/2);
+    top: 260px;
+}
+
+.sign-up .sign-up-container {
+    height: inherit;
+    width: inherit;
+}
+
+.Reg {
+    height: 68px;
+    background-color: rgba(196, 214, 0, 1);
+    border-radius: 50px 50px 0px 0px;
+}
+
+.Reg h1 {
+    width: 187px;
+    height: 37px;
+
+    font-family: 'Helvetica';
+    font-weight: 700;
+    font-size: 32px;
+    color: rgba(255, 255, 255, 1);
+
+    padding-left: 117px;
+    padding-top: 16px;
+}
+
+.main-form {
+    padding-top: 22px;
+    padding-left: 21px;
+}
+
+.main-form input[type="text"], .main-form input[type="password"] {
+    border-radius: 50px;
+    background-color: hsl(0, 0%, 100%);
+    width: 380px;
+    height: 42px;
+    border: none;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+
+    color: #75787B;
+}
+
+.main-form input:not(:first-of-type) {
+    margin-top: 16px;
+}
+
+.Sbmt {
+    margin-top: 16px;
+    width: 380px;
+    height: 42px;
+
+    background: #53565A;
+    border-radius: 50px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+
+    color: #FFFFFF;
+}
+
+#have-acc {
+    background: none;
+    border: none;
+    margin-top: 16px;
+    margin-left: 96px;
+
+    display: flex;
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: none;
+
+    color: #53565A;
+}
+
+.main-form button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.User button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.plane_img {
+    width: 225px;
+    height: 113px;
+    margin-top: 17px;
+    margin-left: 77px;
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+}
