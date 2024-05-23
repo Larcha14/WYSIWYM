@@ -31,72 +31,79 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Обработка регистрации
-    document.getElementById("registrationForm").onsubmit = async function(event) {
-        event.preventDefault();
-        
-        var username = document.getElementById("registerUsername").value;
-        var email = document.getElementById("registerEmail").value;
-        var password = document.getElementById("registerPassword").value;
-        var repeatPassword = document.getElementById("registerRepeatPassword").value;
+   // Обработка регистрации
+document.getElementById("registrationForm").onsubmit = async function(event) {
+    event.preventDefault();
+    
+    var username = document.getElementById("registerUsername").value;
+    var email = document.getElementById("registerEmail").value;
+    var password = document.getElementById("registerPassword").value;
+    var repeatPassword = document.getElementById("registerRepeatPassword").value;
 
-        if (password !== repeatPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
+    if (password !== repeatPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
 
-        var response = await fetch("http://127.0.0.1:8000/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: username,
-                email: email,
-                password: password
-            })
-        });
+    var response = await fetch("http://127.0.0.1:8000/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password
+        })
+    });
 
-        var data = await response.json();
+    var data = await response.json();
 
-        if (response.ok) {
-            alert("Registration successful!");
-            registration.style.display = "none";
-            login.style.display = "flex";
-            
-            // Перенаправление на страницу My requests.html после успешной регистрации
-            window.location.href = "My requests.html";
-        } else {
-            alert("Registration failed: " + data.detail);
-        }
-    };
+    if (response.ok) {
+        alert("Registration successful!");
 
-    // Обработка входа
-    document.getElementById("loginForm").onsubmit = async function(event) {
-        event.preventDefault();
+        // Сохраняем данные пользователя в Local Storage
+        localStorage.setItem('username', username);
+        localStorage.setItem('email', email);
 
-        var username = document.getElementById("loginUsername").value;
-        var password = document.getElementById("loginPassword").value;
+        window.location.href = "My requests.html";
+    } else {
+        alert("Registration failed: " + data.detail);
+    }
+};
+    
 
-        var response = await fetch("http://127.0.0.1:8000/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password
-            })
-        });
+   // Обработка входа
+document.getElementById("loginForm").onsubmit = async function(event) {
+    event.preventDefault();
 
-        var data = await response.json();
+    var username = document.getElementById("loginUsername").value;
+    var password = document.getElementById("loginPassword").value;
 
-        if (response.ok) {
-            alert("Login successful!");
-            // Перенаправление на страницу My requests.html после успешного входа
-            window.location.href = "My requests.html";
-        } else {
-            alert("Login failed: " + data.detail);
-        }
-    };
+    var response = await fetch("http://127.0.0.1:8000/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    });
+
+    var data = await response.json();
+
+    if (response.ok) {
+        alert("Login successful!");
+
+        // Сохраняем данные пользователя в Local Storage
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('email', data.email);
+
+        window.location.href = "My requests.html";
+    } else {
+        alert("Login failed: " + data.detail);
+    }
+};
+    
 });

@@ -14,7 +14,7 @@
     <header class="navbar">
         <div class="container">        
             <ul class="navbar-menu">
-                <li class="logo" >
+                <li class="logo">
                     <a href="main.html"><img src="./style/images/S7 Logo.png" alt="s7logo" /></a>
                 </li>
                 <li class="add_button">
@@ -69,10 +69,11 @@
                 <form action="#" class="profile-content">
                     <div class="profile-container">
                         <div class="profile-data">
-                            <p> Your login: <span class="user-login">Some_login2024</span> </p>
-                            <p> Your email: <span class="user-email">Some_login2024@email.com</span> </p>
+                            <p>Your login: <span class="user-login" id="userLogin">Some_login2024</span></p>
+                            <p>Your email: <span class="user-email" id="userEmail">Some_login2024@email.com</span></p>
+
                         </div>
-                            <button class="sign-out" id="sign-out">Sign out</button>
+                        <button type="button" class="sign-out" id="sign-out">Sign out</button>
                     </div>
                 </form>
             </div>
@@ -84,13 +85,13 @@
                             <h1>Add files</h1>
                         </div>
                         <input type="text" placeholder="Linkname">
-                        <input type="A/C" placeholder="A/C Type">
-                        <input type="A/C" placeholder="A/C Reg">
+                        <input type="text" placeholder="A/C Type">
+                        <input type="text" placeholder="A/C Reg">
                         <div class="drag-drop" id="drag-drop">
                             <h1>Choose a file or drag it here</h1>
                         </div>
-                        <input type="save" placeholder="Save in...">
-                        <button class="upload" id="upload">Upload</button>
+                        <input type="text" placeholder="Save in...">
+                        <button type="button" class="upload" id="upload">Upload</button>
                     </div>
                 </form>
             </div>
@@ -103,13 +104,13 @@
                         <input class="ac-type" type="text" placeholder="A/C Type">
                         <input class="ac-reg" type="text" placeholder="A/C Reg">
                         <div class="report">
-                            <button class="r-plot" id="r-plot">Report plot</button>
-                            <button class="r-table" id="r-table">Report table</button>
+                            <button type="button" class="r-plot" id="r-plot">Report plot</button>
+                            <button type="button" class="r-table" id="r-table">Report table</button>
                             <img class="img1" id="img1" src="./style/images/info1.png" alt="info1">
                             <img class="img2" id="img2" src="./style/images/info2.png" alt="info2">
                         </div>
-                        <input type="compare" class="compare_with" placeholder="Compare with...">
-                        <button class="Compare" id="Compare">Compare</button>
+                        <input type="text" class="compare_with" placeholder="Compare with...">
+                        <button type="button" class="Compare" id="Compare">Compare</button>
                     </div>
                 </form>
             </div>

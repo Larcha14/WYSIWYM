@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
+
 # локальный сервер создаем
 DATABASE_URL = "sqlite:///./test.db"
 #http://127.0.0.1:8000/register
@@ -61,7 +62,7 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"username": new_user.username, "id": new_user.id}
+    return {"username": new_user.username, "id": new_user.id, "email": new_user.email}
 
 @app.post("/login/")
 async def login(user: UserLogin, db: Session = Depends(get_db)):
@@ -70,4 +71,4 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Invalid username or password")
     if db_user.password != user.password:
         raise HTTPException(status_code=400, detail="Invalid username or password")
-    return {"username": db_user.username, "id": db_user.id}
+    return {"username": db_user.username, "id": db_user.id, "email": db_user.email}
