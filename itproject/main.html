@@ -14,7 +14,7 @@
     <header class="navbar">
         <div class="container">        
             <ul class="navbar-menu">
-                <li class="logo" >
+                <li class="logo">
                     <a href="main.html"><img src="./style/images/S7 Logo.png" alt="s7logo" /></a>
                 </li>
                 <li class="add_button">
@@ -49,22 +49,21 @@
                     ready to do something that no one has dared to do yet.
                 </h2>
                 <button class="Sign_in_button" id="openModal"> Sign in </button>
-
             </div>
         </div>
 
         <div class="sign-in" id="sign-in">
-            <form action="#" class="sign-in-content">
+            <form id="loginForm" class="sign-in-content">
                 <div class="sign-in_container">
                     <div class="Login"> 
                         <h1>Log in</h1>
                     </div>
                     <div class="User">
-                        <input type="text" placeholder="Your login">
-                        <input type="password" placeholder="Your password">
-                        <button class="Submit" id="Submit">Submit</button>
+                        <input type="text" id="loginUsername" placeholder="Your login">
+                        <input type="password" id="loginPassword" placeholder="Your password">
+                        <button type="submit" class="Submit" id="Submit">Submit</button>
                         <a id="forgot_pass" href="#">Forgot password?</a>
-                        <button id="No_acc" >Don't have an account?</button>
+                        <button type="button" id="No_acc">Don't have an account?</button>
                         <img class="plane-img" src="./style/images/plane.png" alt="plane :)">
                     </div>
                 </div>
@@ -72,18 +71,18 @@
         </div>
 
         <div class="sign-up" id="sign-up">
-            <form action="#" class="sign-un-content">
+            <form id="registrationForm" class="sign-up-content">
                 <div class="sign-up-container">
                     <div class="Reg">
                         <h1>Registration</h1>
                     </div>
                     <div class="main-form">
-                        <input type="text" placeholder="Your login">
-                        <input type="text" placeholder="Your email">
-                        <input type="password" placeholder="Your password">
-                        <input type="password" placeholder="Repeat password">
-                        <button class="Sbmt" id="Sbmt">Submit</button>
-                        <button id="have-acc">Already have an account?</button>
+                        <input type="text" id="registerUsername" placeholder="Your login">
+                        <input type="text" id="registerEmail" placeholder="Your email">
+                        <input type="password" id="registerPassword" placeholder="Your password">
+                        <input type="password" id="registerRepeatPassword" placeholder="Repeat password">
+                        <button type="submit" class="Sbmt" id="Sbmt">Submit</button>
+                        <button type="button" id="have-acc">Already have an account?</button>
                         <img class="plane_img" src="./style/images/plane.png" alt="plane :)">
                     </div>
                 </div>
