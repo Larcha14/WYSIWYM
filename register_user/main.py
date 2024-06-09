@@ -1,25 +1,30 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
+import pandas as pd
+import io
+# from joblib import load
+from model import AircraftModel
+# Загружаем модель
+# air = load('model.joblib')
+air = AircraftModel()
 
-# локальный сервер создаем
 DATABASE_URL = "sqlite:///./test.db"
-#http://127.0.0.1:8000/register
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 app = FastAPI()
 
-# Разрешение CORS
 origins = [
     "http://localhost",
     "http://localhost:8000",
     "http://127.0.0.1:5500",
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -72,3 +77,31 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
     if db_user.password != user.password:
         raise HTTPException(status_code=400, detail="Invalid username or password")
     return {"username": db_user.username, "id": db_user.id, "email": db_user.email}
+
+@app.post("/uploadfile/")
+async def upload_file(file: UploadFile = File(...)):
+    try:
+        contents = await file.read()
+        df = pd.read_csv(io.BytesIO(contents))
+        predictions = air.predict(df)
+        return {"filename": file.filename, "predictions": predictions}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Добавляем обработчик для /predict/
+@app.post("/predict/")
+async def predict(data: dict):
+    try:
+        df = pd.DataFrame([data])
+        predictions = air.predict(df)
+        return {"predictions": predictions}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+{'VQ-BGU': {'MAE': 1.8614627312154242,  'RMSE': 2.8050581042400884,
+  'MAPE': 0.05974535788183595,
+  'R2 Score': 0.8866836292333645},
+ 'VQ-BDU': {'MAE': 2.82195605805605,
+  'RMSE': 3.494201399513671,
+  'MAPE': 0.1170515730208239,
+  'R2 Score': 0.8619503766413484}}

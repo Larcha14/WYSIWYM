@@ -56,6 +56,34 @@ document.addEventListener('DOMContentLoaded', function() {
         mainList.style.display = "none";
         infoBlock.style.display = "inline";
     }
+    uploadBtn.onclick = function () {
+        var fileInput = document.getElementById('file-input');
+        var file = fileInput.files[0];
+
+        if (file) {
+            var formData = new FormData();
+            formData.append('file', file);
+
+            fetch('http://127.0.0.1:8000/predict/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Здесь обрабатываем ответ от сервера и обновляем интерфейс
+                console.log(data);
+                // Пример обновления UI с данными предсказания
+                infoBlock.innerText = JSON.stringify(data);
+                infoBlock.style.display = "inline";
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        addFilesWindow.style.display = "none";
+        overlay.style.display = "none";
+        heading.style.display = "none";
+        mainList.style.display = "none";
+    }
 
     // -----escape to close--------
 
