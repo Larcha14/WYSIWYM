@@ -6,11 +6,11 @@ from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import io
-# from joblib import load
-from model import AircraftModel
-# Загружаем модель
-# air = load('model.joblib')
-air = AircraftModel()
+from joblib import load
+
+
+air = load('model.joblib')
+
 
 DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(DATABASE_URL)
@@ -98,10 +98,3 @@ async def predict(data: dict):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-{'VQ-BGU': {'MAE': 1.8614627312154242,  'RMSE': 2.8050581042400884,
-  'MAPE': 0.05974535788183595,
-  'R2 Score': 0.8866836292333645},
- 'VQ-BDU': {'MAE': 2.82195605805605,
-  'RMSE': 3.494201399513671,
-  'MAPE': 0.1170515730208239,
-  'R2 Score': 0.8619503766413484}}
