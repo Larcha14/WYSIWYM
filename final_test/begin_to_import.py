@@ -98,8 +98,9 @@ class AircraftModel:
             raise ValueError("No model trained yet")
 
 
-air = AircraftModel()
+# air = AircraftModel()
 df = air.get_train_dataset(X_train, y_train)
 df = air.clear_data(df)
-metrics = air.train_model(df)
-print(metrics)
+print(df.head())
+# metrics = air.train_model(df)
+# print(metrics)
