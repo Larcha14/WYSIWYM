@@ -5,4 +5,4 @@ from begin_to_import import AircraftModel
 import pandas as pd
 data = pd.read_csv('../DATA/X_test.csv')
 model = load('model.joblib')
-predictions = model.predict(data)
+predictions = model.predict(data,'VQ-BGU')
