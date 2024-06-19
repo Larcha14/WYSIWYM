@@ -1,20 +1,22 @@
-from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
+from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
-import pandas as pd
-import io
-from joblib import load
+from fastapi.responses import JSONResponse
+from datetime import datetime
+import os, uvicorn
 
+DATABASE_URL = "sqlite:///./users.db"
+REQUEST_DATABASE_URL = "sqlite:///./requests.db"
 
-air = load('model.joblib')
-
-
-DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(DATABASE_URL)
+request_engine = create_engine(REQUEST_DATABASE_URL)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+RequestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=request_engine)
+
 Base = declarative_base()
 
 app = FastAPI()
@@ -40,7 +42,17 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
 
+class Request(Base):
+    __tablename__ = "requests"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, index=True)
+    project_name = Column(String, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    onboard_number = Column(String)
+    linkname = Column(String, unique=True, index=True)
+
 Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=request_engine)
 
 class UserCreate(BaseModel):
     username: str
@@ -58,15 +70,33 @@ def get_db():
     finally:
         db.close()
 
+def get_request_db():
+    db = RequestSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 @app.post("/register/")
 async def register(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.username == user.username).first()
-    if db_user:
+    
+    # Check if the username or email already exists
+    if db.query(User).filter(User.username == user.username).first():
         raise HTTPException(status_code=400, detail="Username already registered")
+    if db.query(User).filter(User.email == user.email).first():
+        raise HTTPException(status_code=400, detail="Email already registered")
+    db_user = db.query(User).filter(User.username == user.username).first()
+
+
     new_user = User(username=user.username, email=user.email, password=user.password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
+    # Create user directory
+    user_dir = os.path.join("Files", user.username)
+    os.makedirs(user_dir, exist_ok=True)
+
     return {"username": new_user.username, "id": new_user.id, "email": new_user.email}
 
 @app.post("/login/")
@@ -78,23 +108,52 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Invalid username or password")
     return {"username": db_user.username, "id": db_user.id, "email": db_user.email}
 
-@app.post("/uploadfile/")
-async def upload_file(file: UploadFile = File(...)):
-    try:
-        contents = await file.read()
-        df = pd.read_csv(io.BytesIO(contents))
-        predictions = air.predict(df)
-        return {"filename": file.filename, "predictions": predictions}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/upload")
+async def upload_file(Username: str = Form(...), onboardNumber: str = Form(...), projectName: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_request_db)): # onboardNumber: str = Form(...), projectName: str = Form(...),
+    user_folder = os.path.join("Files", Username)
+    
+    file_path = os.path.join(user_folder, file.filename)
 
-# Добавляем обработчик для /predict/
-@app.post("/predict/")
-async def predict(data: dict):
-    try:
-        df = pd.DataFrame([data])
-        predictions = air.predict(df)
-        return {"predictions": predictions}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    with open(file_path, "wb") as buffer:
+        buffer.write(await file.read())
+    
+    linkname = file.filename
+
+    new_request = Request(username=Username, project_name=projectName, onboard_number=onboardNumber, linkname=linkname)
+    db.add(new_request)
+    db.commit()
+    db.refresh(new_request)
+
+    return JSONResponse(status_code=200, content={"message": "File uploaded successfully!"})
+
+@app.get("/users/")
+async def read_users(db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return users
+
+@app.get("/requests/")
+async def read_requests(db: Session = Depends(get_request_db)):
+    requests = db.query(Request).all()
+    return requests
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+# // База данных - запросы (str)
+
+# // Имя пользователя
+# // Project-name (Заданное пользователем)
+# // Date + time creation
+# // on-board number
+# // Linkname (file.filename + time_sec)
+
+
+# // 1) Создать БД с инфой о запросах (СДЕЛАНО)
+# // 2) Drag'n Drop - создание папки username, сохранение tmp файла там + инфа о запросах в БД(СДЕЛАНО)
+# // 3) Обязательное имя для проекта - ЧТОБЫ НАЖАТЬ UPLOAD (СДЕЛАНО)
+# // 4) Обработчик DD, чтобы загружал только CSV  (СДЕЛАНО)
+# // 5) Подумать над логикой удаления TMP, если была не нажата кнопка Upload/Окно закрылось (СДЕЛАНО)
+
+
+# // 6) Сымитировать обработку ML
 
