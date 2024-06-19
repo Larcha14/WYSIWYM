@@ -31,79 +31,105 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-   // Обработка регистрации
-document.getElementById("registrationForm").onsubmit = async function(event) {
-    event.preventDefault();
-    
-    var username = document.getElementById("registerUsername").value;
-    var email = document.getElementById("registerEmail").value;
-    var password = document.getElementById("registerPassword").value;
-    var repeatPassword = document.getElementById("registerRepeatPassword").value;
-
-    if (password !== repeatPassword) {
-        alert("Passwords do not match!");
-        return;
+    s7Logo.onclick = function(event) {
+        event.preventDefault();
+        s7Logo.classList.add('green-effect');
+        setTimeout(function() {
+            s7Logo.classList.remove('green-effect');
+        }, 500); // Duration of the animation
     }
 
-    var response = await fetch("http://127.0.0.1:8000/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            email: email,
-            password: password
-        })
-    });
+    // Обработка регистрации
+    document.getElementById("registrationForm").onsubmit = async function(event) {
+        event.preventDefault();
+        
+        var username = document.getElementById("registerUsername").value;
+        var email = document.getElementById("registerEmail").value;
+        var password = document.getElementById("registerPassword").value;
+        var repeatPassword = document.getElementById("registerRepeatPassword").value;
 
-    var data = await response.json();
+        if (!username || !email || !password || !repeatPassword) {
+            alert("All fields are required.");
+            return;
+        }
 
-    if (response.ok) {
-        alert("Registration successful!");
+        if (username.length < 3 || !/^[A-Za-z0-9]+$/.test(username)) {
+            alert("Username must be at least 3 characters long and contain only Latin characters and digits.");
+            return;
+        }
 
-        // Сохраняем данные пользователя в Local Storage
-        localStorage.setItem('username', username);
-        localStorage.setItem('email', email);
+        if (!/^[^@]{3,}@[^@]{3,}\.[^@]{2,}$/.test(email)) {
+            alert("Email must be in the format 'example'@'example'.'com' with at least 3 characters for each part, except for the 1st level domain");
+            return;
+        }
 
-        window.location.href = "My requests.html";
-    } else {
-        alert("Registration failed: " + data.detail);
-    }
-};
-    
+        if (password.length < 5 || !/^[A-Za-z0-9]+$/.test(password)) {
+            alert("Password must be at least 5 characters long and contain only Latin characters and digits.");
+            return;
+        }
 
-   // Обработка входа
-document.getElementById("loginForm").onsubmit = async function(event) {
-    event.preventDefault();
+        if (password !== repeatPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
 
-    var username = document.getElementById("loginUsername").value;
-    var password = document.getElementById("loginPassword").value;
+        var response = await fetch("http://127.0.0.1:8000/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            })
+        });
 
-    var response = await fetch("http://127.0.0.1:8000/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    });
+        var data = await response.json();
 
-    var data = await response.json();
+        if (response.ok) {
+            alert("Registration successful!");
 
-    if (response.ok) {
-        alert("Login successful!");
+            // Сохраняем данные пользователя в Local Storage
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
 
-        // Сохраняем данные пользователя в Local Storage
-        localStorage.setItem('username', data.username);
-        localStorage.setItem('email', data.email);
+            window.location.href = "Projects.html";
+        } else {
+            alert("Registration failed: " + data.detail);
+        }
+    };
 
-        window.location.href = "My requests.html";
-    } else {
-        alert("Login failed: " + data.detail);
-    }
-};
-    
+    // Обработка входа
+    document.getElementById("loginForm").onsubmit = async function(event) {
+        event.preventDefault();
+
+        var username = document.getElementById("loginUsername").value;
+        var password = document.getElementById("loginPassword").value;
+
+        var response = await fetch("http://127.0.0.1:8000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+
+        var data = await response.json();
+
+        if (response.ok) {
+            alert("Login successful!");
+
+            // Сохраняем данные пользователя в Local Storage
+            localStorage.setItem('username', data.username);
+            localStorage.setItem('email', data.email);
+
+            window.location.href = "Projects.html";
+        } else {
+            alert("Login failed: " + data.detail);
+        }
+    };
 });

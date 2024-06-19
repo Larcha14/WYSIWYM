@@ -29,7 +29,7 @@
     display: inline-block;
     text-decoration: none;
     background-color: white;
-    font: 300 16px/18px 'Helvetica';
+    font: 300 20px/24px 'Helvetica';
     color: #53565A;
 }
 
@@ -45,26 +45,8 @@
     top: 16px;
 }
 
-.add_button {
+.Projects {
     position: absolute;
-    width: 36px;
-    height: 36px;
-    right: 669px;
-    top: 22px;
-}
-
-.All_requests {
-    position: absolute;
-    /* width: 102px; */
-    height: 18px;
-    right: 488px;
-    top: 32px;
-}
-
-.My_requests {
-    position: absolute;
-    /* width: 71px; */
-    height: 18px;
     right: 319px;
     top: 32px;
 }
@@ -247,7 +229,7 @@
     color: #FFFFFF;
 }
 
-#forgot_pass {
+/* #forgot_pass {
     margin-top: 16px;
     margin-left: 125px;
 
@@ -260,10 +242,10 @@
     text-decoration: none;
 
     color: #53565A;
-}
+} */
 
 #No_acc {
-    margin-top: 98px;
+    margin-top: 132px;
     margin-left: 105px;
 
     background: none;
@@ -411,4 +393,27 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding-left: 10px; /* Adds padding to the left */
+    width: calc(100% - 10px); /* Subtracts the padding value from the total width */
+    box-sizing: border-box; /* Includes padding and border in the element's total width */
+}
+
+@keyframes greenPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 10px 10px rgba(0, 255, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+    }
+}
+
+.green-effect {
+    animation: greenPulse 1s infinite;
 }
