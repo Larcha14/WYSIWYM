@@ -668,3 +668,23 @@ input[type="save"] {
 .green-effect {
     animation: greenPulse 1s infinite;
 }
+
+
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 2px solid #000000;
+    text-align: center;
+    vertical-align: middle;
+    width: 90px;  /* Задаем фиксированную ширину ячеек */
+    height: 70px;  /* Задаем фиксированную высоту ячеек */
+  }
+  
+  th {
+    text-align: center;
+  }

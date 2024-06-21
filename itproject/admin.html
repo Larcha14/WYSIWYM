@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="./style/Projects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antic+Didone&family=Oswald&family=Raleway:ital@0;1&display=swap" rel="stylesheet">
+    <script src="./script/admin-script.js"></script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">        
+            <ul class="navbar-menu">
+                <li class="logo">
+                    <a id="s7Logo"><img src="./style/images/S7 Logo.png" alt="s7logo" /></a>
+                </li>
+                <li class="add_button">
+                    <button id="add-button">
+                        <img src="./style/images/Add button.png" alt="add_button">
+                    </button>
+                </li>
+                <li class="Projects">
+                    <a href="main.html">Log out</a>
+                </li>
+                <li class="User_logo">
+                    <button id="userLogo">
+                        <img src="./style/images/User.png" alt="User_logo">
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="Main_content">
+        <h1 style="align-items: center;">Admin Panel</h1>
+        <table id="users-table" border="1">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Action</th>
+                
+            </tr>
+        </table>
+    </main>
+</body>
+</html>

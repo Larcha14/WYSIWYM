@@ -107,6 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var username = document.getElementById("loginUsername").value;
         var password = document.getElementById("loginPassword").value;
 
+        if (username === "admin" && password === "admin"){
+            alert("ADMIN login successful!");
+            window.location.href = "admin.html";
+        } else{
+
         var response = await fetch("http://127.0.0.1:8000/login", {
             method: "POST",
             headers: {
@@ -131,5 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert("Login failed: " + data.detail);
         }
+    }
     };
 });

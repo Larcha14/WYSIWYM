@@ -77,6 +77,7 @@ def get_request_db():
     finally:
         db.close()
 
+
 @app.post("/register/")
 async def register(user: UserCreate, db: Session = Depends(get_db)):
     
@@ -135,6 +136,17 @@ async def read_users(db: Session = Depends(get_db)):
 async def read_requests(db: Session = Depends(get_request_db)):
     requests = db.query(Request).all()
     return requests
+
+
+@app.delete("/users/{user_id}")
+async def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
+    db.commit()
+    return {"message": "User deleted successfully"}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
