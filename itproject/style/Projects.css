@@ -671,20 +671,44 @@ input[type="save"] {
 
 
 
-/* Стили для таблицы */
+/* Стили для таблицы на странице панели админа*/
 table {
-    width: 100%;
+    width: 1536px;
     border-collapse: collapse;
+    margin-left: calc(50% - 1536px/2 + 0.5px);;
   }
   
   th, td {
-    border: 2px solid #000000;
+    border: 2px solid black;
     text-align: center;
     vertical-align: middle;
     width: 90px;  /* Задаем фиксированную ширину ячеек */
     height: 70px;  /* Задаем фиксированную высоту ячеек */
+
+    font-family: 'Helvetica';
+  }
+
+  tr:nth-child(even) {
+    background-color: #ffffff; /* Белый фон для четных строк */
   }
   
-  th {
-    text-align: center;
+  tr:nth-child(odd) {
+    background-color: #C4D600;/* Зеленый фон для нечетных строк */
   }
+
+.admin-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 0, 0.26);
+    height: 80px;
+    width: 1536px;
+    margin-left: calc(50% - 1536px/2 + 0.5px);
+
+    font-family: 'Antic Didone';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    color: #FFFFFF;
+}
