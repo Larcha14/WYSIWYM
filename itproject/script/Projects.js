@@ -48,27 +48,16 @@ var mainList = document.getElementById("mainList");
 
 var infoBlock = document.getElementById("info-block");
 
-const inputField = document.getElementById('on-board-number');
-const suggestionsList = document.getElementById('suggestions-list');
+const btn1 = document.getElementById('plane-var1');
+const btn2 = document.getElementById('plane-var2');
+
+const input = document.getElementById('project-name');
 
 addFilesBtn.onclick = function () {
     addFilesWindow.style.display = "flex";
     overlay.style.display = "flex";
 };
 
-// -----escape to close--------
-document.addEventListener('keydown', function(event) {
-    if (event.key === "Escape") {
-        if (profile.style.display == "flex" || addFilesWindow.style.display == "flex" ||
-        overlay.style.display == "flex") {
-            profile.style.display = "none";
-            addFilesWindow.style.display = "none";
-            overlay.style.display = "none";
-            suggestionsList.style.display = 'none';
-            inputField.value = '';
-        }
-    }
-});
 
 //--------------------------- drag-drop zone try-----------------------------------------
 const dropZone = document.getElementById("drag-drop");
@@ -166,13 +155,61 @@ s7Logo.onclick = function(event) {
     }, 500); // Duration of the animation
 }
 
+
+
+function handleButtonClick(clickedButton) {
+    // Получаем значение, записанное в атрибуте data-value кнопки
+    const buttonValue = clickedButton.textContent;
+  
+    // Выводим полученное значение в консоль
+    console.log(`Clicked button with value: ${buttonValue}`);
+    return buttonValue;
+}
+
+    // Получаем ссылки на кнопки
+const button1 = document.getElementById('plane-var1');
+const button2 = document.getElementById('plane-var2');
+
+// Добавляем обработчики событий click для каждой кнопки
+
+let firstButtonActive;
+let secondButtonActive;
+
+button1.addEventListener('click', () => {
+    firstButtonActive = handleButtonClick(button1);
+    button1.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
+
+    secondButtonActive = undefined;
+    button2.style.backgroundColor = 'white';
+});
+
+button2.addEventListener('click', () =>  {
+    secondButtonActive = handleButtonClick(button2);
+    button2.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
+
+    firstButtonActive = undefined;
+    button1.style.backgroundColor = 'white';
+});
+
+
 uploadButton.disabled = false;
 
 uploadButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
     var username = localStorage.getItem('username');
-    const onboardNumber = document.querySelector('input[placeholder="Enter/select on-board number"]').value;
+    let onboardNumber;
+
+    if (firstButtonActive) {
+        onboardNumber = firstButtonActive;
+        console.log(`Clicked button with value: ${onboardNumber}`);
+    }
+
+    else if (secondButtonActive){
+        onboardNumber = secondButtonActive;
+        console.log(`Clicked button with value: ${onboardNumber}`);
+    }
+
     const projectName = document.querySelector('input[placeholder="Enter the name of the project..."]').value;
     
     if (!selectedFile) {
@@ -219,52 +256,23 @@ uploadButton.addEventListener('click', async (event) => {
         console.error('Error uploading file:', error);
         alert('An error occurred while uploading the file.');
     }
+
 });
 
-//-------------------------trying suggestions menu----------------------------
 
-// Массив с предложениями
-const suggestions = ['VQ-BGU', 'VQ-BDU'];
-
-function handleSuggestionClick(suggestion) {
-    inputField.value = suggestion;
-    hideSuggestions();
-  
-    // Здесь можно добавить дополнительную логику обработки выбранного значения
-    console.log('Выбрано значение:', suggestion);
-}
-
-// Функция для отображения предложений
-function showSuggestions() {
-  suggestionsList.innerHTML = '';
-
-  // Фильтруем предложения, начинающиеся с введенного текста
-  const filteredSuggestions = suggestions.filter(suggestion =>
-    suggestion.toLowerCase().startsWith(inputField.value.toLowerCase())
-  );
-
-  // Создаем элементы списка для каждого предложения
-  filteredSuggestions.forEach(suggestion => {
-    const listItem = document.createElement('li');
-    listItem.textContent = suggestion;
-    listItem.addEventListener('click', () => 
-      handleSuggestionClick(suggestion));
-    suggestionsList.appendChild(listItem);
-  });
-
-  // Показываем поле ввода, список предложений и обертку, если есть что показывать
-  if (filteredSuggestions.length > 0) {
-    suggestionsList.style.display = 'flex';
-  } else {
-    hideSuggestions();
-  }
-}
-
-
-// Функция для скрытия списка предложений
-function hideSuggestions() {
-  suggestionsList.style.display = 'none';
-}
-
-// Обработчик события фокуса на поле ввода
-inputField.addEventListener('focus', showSuggestions);
+// -----escape to close--------
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        if (profile.style.display == "flex" || addFilesWindow.style.display == "flex" ||
+        overlay.style.display == "flex") {
+            profile.style.display = "none";
+            addFilesWindow.style.display = "none";
+            overlay.style.display = "none";
+            btn1.style.backgroundColor = 'white';
+            btn2.style.backgroundColor = 'white';
+            input.value = '';
+            firstButtonActive = undefined;
+            secondButtonActive = undefined;
+        }
+    }
+});
