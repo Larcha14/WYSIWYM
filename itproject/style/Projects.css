@@ -326,17 +326,14 @@
     margin-top: 22px;
 }
 
-.suggestions-list {
-    list-style-type: none;
-    display: none;
+.choise-plane-buttons {
+    display: flex;
     justify-content: space-around;
     margin: 0;
     padding: 0;
-
-    z-index: 1002;
 }
 
-.suggestions-list li {
+#plane-var1, #plane-var2 { 
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -347,9 +344,7 @@
     background-color: white;
     border-radius: 50px;
 
-
     margin-top: 22px;
-    margin-left: 21px;
 
     font-family: 'Helvetica';
     font-weight: 300;
@@ -357,15 +352,6 @@
     line-height: 18.4px;
 
     color: black;
-}
-
-.suggestions-list li:hover {
-    transform: scale(1.05);
-    border: 1px dotted black;
-}
-
-.suggestions-list li:active {
-    transform: scale(0.95);
 }
 
 .add-files-container input[type="A/C"] {
