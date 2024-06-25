@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 username: username,
-                password: password
+                password: password,
             })
         });
 
@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Сохраняем данные пользователя в Local Storage
             localStorage.setItem('username', data.username);
             localStorage.setItem('email', data.email);
+            localStorage.setItem('id', data.id);
 
             window.location.href = "Projects.html";
         } else {

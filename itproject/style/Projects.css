@@ -13,7 +13,7 @@
     height: inherit;
     display: flex;
     justify-content: space-between;
-    align-items: center; 
+    align-items: center;
 }
 
 .navbar-menu {
@@ -326,14 +326,17 @@
     margin-top: 22px;
 }
 
-.choise-plane-buttons {
-    display: flex;
+.suggestions-list {
+    list-style-type: none;
+    display: none;
     justify-content: space-around;
     margin: 0;
     padding: 0;
+
+    z-index: 1002;
 }
 
-#plane-var1, #plane-var2 { 
+.suggestions-list li {
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -344,7 +347,9 @@
     background-color: white;
     border-radius: 50px;
 
+
     margin-top: 22px;
+    margin-left: 21px;
 
     font-family: 'Helvetica';
     font-weight: 300;
@@ -352,6 +357,15 @@
     line-height: 18.4px;
 
     color: black;
+}
+
+.suggestions-list li:hover {
+    transform: scale(1.05);
+    border: 1px dotted black;
+}
+
+.suggestions-list li:active {
+    transform: scale(0.95);
 }
 
 .add-files-container input[type="A/C"] {
@@ -659,16 +673,14 @@ input[type="save"] {
 
 /* Стили для таблицы на странице панели админа*/
 table {
-    width: 1536px;
     border-collapse: collapse;
-    margin-left: calc(50% - 1536px/2 + 0.5px);;
   }
   
-  th, td {
-    border: 2px solid black;
+    th, td {
+    /* border: 2px solid black; */
     text-align: center;
     vertical-align: middle;
-    width: 90px;  /* Задаем фиксированную ширину ячеек */
+    width: 100px;  /* Задаем фиксированную ширину ячеек */
     height: 70px;  /* Задаем фиксированную высоту ячеек */
 
     font-family: 'Helvetica';
@@ -698,3 +710,19 @@ table {
     line-height: 48px;
     color: #FFFFFF;
 }
+
+
+
+/* Стиль для таблицы в project */
+.project-table {
+    border-collapse: collapse;
+    width: 1536px;
+  }
+  
+.project-table th, td {
+    /* border: 2px solid black; */
+    height: 128px;
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'Helvetica';
+  }

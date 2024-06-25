@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Antic+Didone&family=Oswald&family=Raleway:ital@0;1&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar"> 
+    <header class="navbar">
         <div class="container">        
             <ul class="navbar-menu">
                 <li class="logo">
@@ -39,12 +39,18 @@
             <div class="Heading" id="Heading">
                 Your latest projects
             </div>
-            <div class="Main_lists" id="mainList">
-                <ul class="Projects_dates" id="Projects_dates">
-                    <li>
-                        <span>Date 01.01.2024</span> <a href="#">Link-name</a> <span>On-board number</span>
-                    </li>   
-                </ul>
+            <div class="Main_lists" style="display: grid;" id="mainList">
+
+                <div style="display: grid; justify-content: center;">
+                            <table  class="project-table" id="user-request" style="justify-self: center;">
+                                <tr style="display: none;">
+                                    <th>Data</th>
+                                    <th>Name</th>
+                                    <th>Onboard Number</th>  
+                                    <th>Action</th>                                  
+                                </tr>
+                            </table>
+                </div>
             </div>
 
             <div class="profile" id="profile">
@@ -55,7 +61,9 @@
                             <p>Your email: <span class="user-email" id="userEmail">Some_login2024@email.com</span></p>
 
                         </div>
+                        
                         <button type="button" class="deleteAcc" id="deleteAcc">Delete account</button>
+                    
                         <button type="button" class="sign-out" id="sign-out">Sign out</button>
                     </div>
                 </form>
@@ -67,10 +75,8 @@
                         <div class="add-files-header">
                             <h1>Add files</h1>
                         </div>
-                        <div class="choise-plane-buttons">
-                            <button id="plane-var1">VQ-BGU</button>
-                            <button id="plane-var2">VD-BGU</button>
-                        </div>
+                        <input type="text" id="on-board-number" placeholder="Enter/select on-board number">
+                        <ul id="suggestions-list" class="suggestions-list"></ul>         
                         <div class="drag-drop" id="drag-drop">
                             <h1 id="drag-drop-text">Choose a file or drag it here</h1>
                             <div id="file-preview" style="display:none;">
@@ -79,7 +85,7 @@
                                 <button id="clear-button" style="display:none;">Clear</button>
                             </div>
                         </div>                                
-                        <input type="save" id="project-name" placeholder="Enter the name of the project...">
+                         <input type="save" id="project-name" placeholder="Enter the name of the project...">
                         <button type="button" class="upload" id="upload-button" disabled>Upload</button>
                     </div>
                     <div id="error-message" style="color: red; display: none;">Please fill out all fields and select a file.</div>

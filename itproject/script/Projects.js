@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     signOutButton.onclick = function () {
         // Удаление данных пользователя из Local Storage
+        localStorage.removeItem('id');
         localStorage.removeItem('username');
         localStorage.removeItem('email');
         profile.style.display = "none";
@@ -35,6 +36,25 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'main.html';
         }, 100); // Задержка в миллисекундах
     }
+
+
+
+    // Кнопка удаления аккаунта
+    var OutButton = document.getElementById("deleteAcc");
+
+    OutButton.onclick = function () {
+        deleteUser();
+        // Удаление данных пользователя из Local Storage
+        localStorage.removeItem('id');
+        localStorage.removeItem('username');
+        localStorage.removeItem('email');
+        profile.style.display = "none";
+        setTimeout(function() {
+            window.location.href = 'main.html';
+        }, 100); // Задержка в миллисекундах
+    }
+
+
 });
 
 // ----------drag-drop-------------
@@ -48,16 +68,27 @@ var mainList = document.getElementById("mainList");
 
 var infoBlock = document.getElementById("info-block");
 
-const btn1 = document.getElementById('plane-var1');
-const btn2 = document.getElementById('plane-var2');
-
-const input = document.getElementById('project-name');
+const inputField = document.getElementById('on-board-number');
+const suggestionsList = document.getElementById('suggestions-list');
 
 addFilesBtn.onclick = function () {
     addFilesWindow.style.display = "flex";
     overlay.style.display = "flex";
 };
 
+// -----escape to close--------
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        if (profile.style.display == "flex" || addFilesWindow.style.display == "flex" ||
+        overlay.style.display == "flex") {
+            profile.style.display = "none";
+            addFilesWindow.style.display = "none";
+            overlay.style.display = "none";
+            suggestionsList.style.display = 'none';
+            inputField.value = '';
+        }
+    }
+});
 
 //--------------------------- drag-drop zone try-----------------------------------------
 const dropZone = document.getElementById("drag-drop");
@@ -155,61 +186,13 @@ s7Logo.onclick = function(event) {
     }, 500); // Duration of the animation
 }
 
-
-
-function handleButtonClick(clickedButton) {
-    // Получаем значение, записанное в атрибуте data-value кнопки
-    const buttonValue = clickedButton.textContent;
-  
-    // Выводим полученное значение в консоль
-    console.log(`Clicked button with value: ${buttonValue}`);
-    return buttonValue;
-}
-
-    // Получаем ссылки на кнопки
-const button1 = document.getElementById('plane-var1');
-const button2 = document.getElementById('plane-var2');
-
-// Добавляем обработчики событий click для каждой кнопки
-
-let firstButtonActive;
-let secondButtonActive;
-
-button1.addEventListener('click', () => {
-    firstButtonActive = handleButtonClick(button1);
-    button1.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
-
-    secondButtonActive = undefined;
-    button2.style.backgroundColor = 'white';
-});
-
-button2.addEventListener('click', () =>  {
-    secondButtonActive = handleButtonClick(button2);
-    button2.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
-
-    firstButtonActive = undefined;
-    button1.style.backgroundColor = 'white';
-});
-
-
 uploadButton.disabled = false;
 
 uploadButton.addEventListener('click', async (event) => {
     event.preventDefault();
 
     var username = localStorage.getItem('username');
-    let onboardNumber;
-
-    if (firstButtonActive) {
-        onboardNumber = firstButtonActive;
-        console.log(`Clicked button with value: ${onboardNumber}`);
-    }
-
-    else if (secondButtonActive){
-        onboardNumber = secondButtonActive;
-        console.log(`Clicked button with value: ${onboardNumber}`);
-    }
-
+    const onboardNumber = document.querySelector('input[placeholder="Enter/select on-board number"]').value;
     const projectName = document.querySelector('input[placeholder="Enter the name of the project..."]').value;
     
     if (!selectedFile) {
@@ -256,23 +239,111 @@ uploadButton.addEventListener('click', async (event) => {
         console.error('Error uploading file:', error);
         alert('An error occurred while uploading the file.');
     }
-
 });
 
+//-------------------------trying suggestions menu----------------------------
 
-// -----escape to close--------
-document.addEventListener('keydown', function(event) {
-    if (event.key === "Escape") {
-        if (profile.style.display == "flex" || addFilesWindow.style.display == "flex" ||
-        overlay.style.display == "flex") {
-            profile.style.display = "none";
-            addFilesWindow.style.display = "none";
-            overlay.style.display = "none";
-            btn1.style.backgroundColor = 'white';
-            btn2.style.backgroundColor = 'white';
-            input.value = '';
-            firstButtonActive = undefined;
-            secondButtonActive = undefined;
+// Массив с предложениями
+const suggestions = ['VQ-BGU', 'VQ-BDU'];
+
+function handleSuggestionClick(suggestion) {
+    inputField.value = suggestion;
+    hideSuggestions();
+  
+    // Здесь можно добавить дополнительную логику обработки выбранного значения
+    console.log('Выбрано значение:', suggestion);
+}
+
+// Функция для отображения предложений
+function showSuggestions() {
+  suggestionsList.innerHTML = '';
+
+  // Фильтруем предложения, начинающиеся с введенного текста
+  const filteredSuggestions = suggestions.filter(suggestion =>
+    suggestion.toLowerCase().startsWith(inputField.value.toLowerCase())
+  );
+
+  // Создаем элементы списка для каждого предложения
+  filteredSuggestions.forEach(suggestion => {
+    const listItem = document.createElement('li');
+    listItem.textContent = suggestion;
+    listItem.addEventListener('click', () => 
+      handleSuggestionClick(suggestion));
+    suggestionsList.appendChild(listItem);
+  });
+
+  // Показываем поле ввода, список предложений и обертку, если есть что показывать
+  if (filteredSuggestions.length > 0) {
+    suggestionsList.style.display = 'flex';
+  } else {
+    hideSuggestions();
+  }
+}
+
+
+// Функция для скрытия списка предложений
+function hideSuggestions() {
+  suggestionsList.style.display = 'none';
+}
+
+// Обработчик события фокуса на поле ввода
+inputField.addEventListener('focus', showSuggestions);
+
+async function deleteUser() {
+    var userId = localStorage.getItem('id');
+    if (confirm('Вы действительно хотите удалить?')) {
+        const response = await fetch(`http://127.0.0.1:8000/users/${userId}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            alert('Пользователь удален успешно');
+        } else {
+            alert('Ошибка при удалении пользователя');
         }
     }
-});
+}
+
+async function fetchRequests() {
+    var username = localStorage.getItem('username');
+    const response = await fetch(`http://127.0.0.1:8000/requests/${username}`);
+    const requests = await response.json();
+    const table = document.getElementById('user-request');
+
+    requests.forEach(request => {
+        const row = table.insertRow();
+        const createdAtCell = row.insertCell(0);
+        const projectNameCell = row.insertCell(1);
+        const onboardNumberCell = row.insertCell(2);
+        const actionCell = row.insertCell(3);
+        
+        projectNameCell.innerHTML = `<a href='#' onclick="GoToRequest(${request.id}); return false;">${request.project_name}</a>`;
+        onboardNumberCell.textContent = request.onboard_number;
+        createdAtCell.textContent = new Date(request.created_at).toLocaleString();
+        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Удалить</a>`;
+    });
+}
+
+async function deleteRequest(requestId) {
+    if (confirm('Вы действительно хотите удалить?')) {
+        const response = await fetch(`http://127.0.0.1:8000/requests/${requestId}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            alert('Запрос удален успешно');
+            document.location.reload();
+        } else {
+            alert('Ошибка при удалении запроса');
+        }
+    }
+}
+
+
+async function GoToRequest(requestId) {
+    localStorage.setItem('id_request', requestId);
+    window.location.href = "request.html";
+}
+
+
+window.onload = () => {
+    fetchRequests();
+};

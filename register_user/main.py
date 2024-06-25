@@ -139,13 +139,53 @@ async def read_requests(db: Session = Depends(get_request_db)):
 
 
 @app.delete("/users/{user_id}")
-async def delete_user(user_id: int, db: Session = Depends(get_db)):
+async def delete_user(user_id: int, db: Session = Depends(get_db), request_db: Session = Depends(get_request_db)):
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
+
+    # Get and delete all requests of the user
+    user_requests = request_db.query(Request).filter(Request.username == user.username).all()
+    for request in user_requests:
+        user_folder = os.path.join("Files", request.username)
+        file_path = os.path.join(user_folder, request.linkname)
+        
+        # Remove the file if it exists
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        
+        request_db.delete(request)
+    request_db.commit()
+    
     db.delete(user)
     db.commit()
-    return {"message": "User deleted successfully"}
+    return {"message": "User and all related requests deleted successfully"}
+
+
+@app.delete("/requests/{request_id}")
+async def delete_request(request_id: int, db: Session = Depends(get_request_db)):
+    request = db.query(Request).filter(Request.id == request_id).first()
+    if request is None:
+        raise HTTPException(status_code=404, detail="Request not found")
+    
+    
+    # Construct the file path
+    user_folder = os.path.join("Files", request.username)
+    file_path = os.path.join(user_folder, request.linkname)
+    
+    # Remove the file if it exists
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    db.delete(request)
+    db.commit()
+    return {"message": "Request deleted successfully"}
+
+
+@app.get("/requests/{username}")
+async def read_user_requests(username: str, db: Session = Depends(get_request_db)):
+    requests = db.query(Request).filter(Request.username == username).all()
+    return requests
 
 
 if __name__ == "__main__":

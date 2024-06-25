@@ -18,11 +18,7 @@
                 <li class="logo">
                     <a id="s7Logo"><img src="./style/images/S7 Logo.png" alt="s7logo" /></a>
                 </li>
-                <li class="add_button">
-                    <button id="add-button">
-                        <img src="./style/images/Add button.png" alt="add_button">
-                    </button>
-                </li>
+                
                 <li class="Projects">
                     <a href="main.html">Log out</a>
                 </li>
@@ -36,17 +32,34 @@
     </header>
 
     <main class="Main_content">
-        <h1 style="align-items: center;">Admin Panel</h1>
-        <table id="users-table" border="1">
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Action</th>
-                
-            </tr>
-        </table>
+        <div style="display: grid; justify-content: center;">
+            <h1 style="justify-self: center;">Users</h1>
+                    <table class="admin_table" id="users-table" style="justify-self: center; width: 1000px;" border="1">
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Action</th>
+                            
+                        </tr>
+                    </table>
+        </div>
+
+
+        <div style="display: grid; justify-content: center; margin-top: 40px">
+            <h1 style="justify-self: center;">Requests</h1>
+                    <table id="requests-table" style="width: 1200px;" border="1">
+                        <tr>
+                            <th>Username</th>
+                            <th>Project Name</th>
+                            <th>Onboard Number</th>
+                            <th>Created At</th>
+                            <th>Linkname</th>
+                            <th>Action</th>
+                        </tr>
+                    </table>
+        </div>
     </main>
 </body>
 </html>

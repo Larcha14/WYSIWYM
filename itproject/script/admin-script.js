@@ -31,4 +31,45 @@ async function deleteUser(userId) {
     }
 }
 
-window.onload = fetchUsers;
+async function fetchRequests() {
+    const response = await fetch('http://127.0.0.1:8000/requests/');
+    const requests = await response.json();
+    const table = document.getElementById('requests-table');
+
+    requests.forEach(request => {
+        const row = table.insertRow();
+        const usernameCell = row.insertCell(0);
+        const projectNameCell = row.insertCell(1);
+        const onboardNumberCell = row.insertCell(2);
+        const createdAtCell = row.insertCell(3);
+        const linknameCell = row.insertCell(4);
+        const actionCell = row.insertCell(5);
+
+        usernameCell.textContent = request.username;
+        projectNameCell.textContent = request.project_name;
+        onboardNumberCell.textContent = request.onboard_number;
+        createdAtCell.textContent = new Date(request.created_at).toLocaleString();
+        linknameCell.textContent = request.linkname;
+        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Удалить</a>`;
+    });
+}
+
+async function deleteRequest(requestId) {
+    if (confirm('Вы действительно хотите удалить?')) {
+        const response = await fetch(`http://127.0.0.1:8000/requests/${requestId}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            alert('Запрос удален успешно');
+            document.location.reload();
+        } else {
+            alert('Ошибка при удалении запроса');
+        }
+    }
+}
+
+
+window.onload = () => {
+    fetchUsers();
+    fetchRequests();
+};
