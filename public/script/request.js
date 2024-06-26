@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Получение данных пользователя из Local Storage
     var username = localStorage.getItem('username');
     var email = localStorage.getItem('email');
+    var projectName = localStorage.getItem('project_name');
     
     if (username && email) {
         document.getElementById('userLogin').innerText = username;
@@ -10,7 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Если данные пользователя не найдены, перенаправить на страницу входа
         window.location.href = 'main.html';
     }
-
+    // Устанавливаем имя проекта в заголовке
+    if (projectName) {
+    document.getElementById('Heading').innerText = `Project: ${projectName}`;
+    }
     // Кнопка для отображения профиля
     var userInfoButton = document.getElementById("userLogo");
     var profile = document.getElementById("profile");
@@ -55,9 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
-
-// Обработчик события фокуса на поле ввода
-inputField.addEventListener('focus', showSuggestions);
 
 async function deleteUser() {
     var userId = localStorage.getItem('id');

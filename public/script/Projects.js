@@ -314,6 +314,12 @@ async function deleteUser() {
     }
 }
 
+async function GoToRequest(requestId, projectName) {
+    localStorage.setItem('id_request', requestId);
+    localStorage.setItem('project_name', projectName);
+    window.location.href = "request.html";
+}
+
 async function fetchRequests() {
     var username = localStorage.getItem('username');
     const response = await fetch(`http://127.0.0.1:8000/requests/${username}`);
@@ -327,7 +333,7 @@ async function fetchRequests() {
         const onboardNumberCell = row.insertCell(2);
         const actionCell = row.insertCell(3);
         
-        projectNameCell.innerHTML = `<a href='#' onclick="GoToRequest(${request.id}); return false;">${request.project_name}</a>`;
+        projectNameCell.innerHTML = `<a href='#' onclick="GoToRequest(${request.id}, '${request.project_name}'); return false;">${request.project_name}</a>`;
         onboardNumberCell.textContent = request.onboard_number;
         createdAtCell.textContent = new Date(request.created_at).toLocaleString();
         actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Delete</a>`;
@@ -348,10 +354,6 @@ async function deleteRequest(requestId) {
     }
 }
 
-async function GoToRequest(requestId) {
-    localStorage.setItem('id_request', requestId);
-    window.location.href = "request.html";
-}
 
 window.onload = () => {
     fetchRequests();
