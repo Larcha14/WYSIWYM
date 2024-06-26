@@ -670,6 +670,7 @@ input[type="save"] {
 /* Стили для таблицы на странице панели админа*/
 table {
     border-collapse: collapse;
+    width: 1536px;
   }
   
     th, td {
