@@ -194,16 +194,30 @@ let firstButtonActive;
 let secondButtonActive;
 
 button1.addEventListener('click', () => {
+    event.preventDefault();
     firstButtonActive = handleButtonClick(button1);
     button1.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
+
+
+    console.error();
+    console.warn();
+    console.info();
+    console.table();
 
     secondButtonActive = undefined;
     button2.style.backgroundColor = 'white';
 });
 
 button2.addEventListener('click', () =>  {
+    event.preventDefault();
     secondButtonActive = handleButtonClick(button2);
     button2.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
+
+
+    console.error();
+    console.warn();
+    console.info();
+    console.table();
 
     firstButtonActive = undefined;
     button1.style.backgroundColor = 'white';
