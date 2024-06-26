@@ -103,7 +103,7 @@
 
 
 .Main_content .main_container {       /* задний темный фон */
-    height: inherit;
+    min-height: inherit;
     justify-content: center;
     margin-left: calc(50% - 1536px/2);
     background-color:rgba(0, 0, 0, 0.26);
@@ -694,8 +694,8 @@ table {
     align-items: center;
     background-color:rgba(0, 0, 0, 0.26);
     height: 80px;
-    width: 1000px;
-    margin-left: calc(50% - 1000px/2 + 0.5px);
+    width: 1536px;
+    margin-left: calc(50% - 1536px/2 + 0.5px);
 
     font-family: 'Antic Didone';
     font-style: normal;
@@ -709,7 +709,6 @@ table {
 /* Стиль для таблицы в project */
 .project-table {
     border-collapse: collapse;
-    width: 1536px;
   }
   
 .project-table th, td {
@@ -734,8 +733,8 @@ tr:nth-child(even) {
     align-items: center;
     background-color:rgba(0, 0, 0, 0.26);
     height: 80px;
-    width: 1200px;
-    margin-left: calc(50% - 1200px/2 + 0.5px);
+    width: 1536px;
+    margin-left: calc(50% - 1536px/2 + 0.5px);
 
     font-family: 'Antic Didone';
     font-style: normal;
