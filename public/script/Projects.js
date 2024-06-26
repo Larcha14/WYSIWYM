@@ -343,15 +343,18 @@ async function deleteRequest(requestId) {
 
 // -----escape to close--------
 document.addEventListener('keydown', function(event) {
-    if (profile.style.display == "flex" || addFilesWindow.style.display == "flex" || overlay.style.display == "flex") {
-        profile.style.display = "none";
-        addFilesWindow.style.display = "none";
-        overlay.style.display = "none";
-        btn1.style.backgroundColor = 'white';
-        btn2.style.backgroundColor = 'white';
-        input.value = '';
-        firstButtonActive = undefined;
-        secondButtonActive = undefined;
+    if (event.key === "Escape") {
+        if (profile.style.display == "flex" || addFilesWindow.style.display == "flex" ||
+        overlay.style.display == "flex") {
+            profile.style.display = "none";
+            addFilesWindow.style.display = "none";
+            overlay.style.display = "none";
+            btn1.style.backgroundColor = 'white';
+            btn2.style.backgroundColor = 'white';
+            input.value = '';
+            firstButtonActive = undefined;
+            secondButtonActive = undefined;
+        }
     }
 });
 
