@@ -233,7 +233,8 @@ uploadButton.addEventListener('click', async (event) => {
             selectedFile = null;
             uploadButton.disabled = true; // Disable the upload button
         } else {
-            alert('File upload failed.');
+            const errorData = await response.json();
+            alert(`File upload failed: ${errorData.detail}`);
         }
     } catch (error) {
         console.error('Error uploading file:', error);
@@ -291,14 +292,14 @@ inputField.addEventListener('focus', showSuggestions);
 
 async function deleteUser() {
     var userId = localStorage.getItem('id');
-    if (confirm('Вы действительно хотите удалить?')) {
+    if (confirm('Do you really want to delete the request?')) {
         const response = await fetch(`http://127.0.0.1:8000/users/${userId}`, {
             method: 'DELETE',
         });
         if (response.ok) {
-            alert('Пользователь удален успешно');
+            alert('The user was deleted successfully.');
         } else {
-            alert('Ошибка при удалении пользователя');
+            alert('Error deleting the user.');
         }
     }
 }
@@ -324,15 +325,15 @@ async function fetchRequests() {
 }
 
 async function deleteRequest(requestId) {
-    if (confirm('Вы действительно хотите удалить?')) {
+    if (confirm('Do you really want to delete the request?')) {
         const response = await fetch(`http://127.0.0.1:8000/requests/${requestId}`, {
             method: 'DELETE',
         });
         if (response.ok) {
-            alert('Запрос удален успешно');
+            alert('The request was deleted successfully.');
             document.location.reload();
         } else {
-            alert('Ошибка при удалении запроса');
+            alert('Error deleting the request.');
         }
     }
 }

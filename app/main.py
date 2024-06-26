@@ -8,8 +8,8 @@ from fastapi.responses import JSONResponse
 from datetime import datetime
 import os, uvicorn
 
-DATABASE_URL = "sqlite:///./users.db"
-REQUEST_DATABASE_URL = "sqlite:///./requests.db"
+DATABASE_URL = "sqlite:///./app/users.db"
+REQUEST_DATABASE_URL = "sqlite:///./app/requests.db"
 
 engine = create_engine(DATABASE_URL)
 request_engine = create_engine(REQUEST_DATABASE_URL)
@@ -46,7 +46,7 @@ class Request(Base):
     __tablename__ = "requests"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, index=True)
-    project_name = Column(String, index=True)
+    project_name = Column(String, unique=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     onboard_number = Column(String)
     linkname = Column(String, unique=True, index=True)
@@ -95,7 +95,7 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     # Create user directory
-    user_dir = os.path.join("Files", user.username)
+    user_dir = os.path.join("./app/Files", user.username)
     os.makedirs(user_dir, exist_ok=True)
 
     return {"username": new_user.username, "id": new_user.id, "email": new_user.email}
@@ -111,7 +111,17 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
 
 @app.post("/upload")
 async def upload_file(Username: str = Form(...), onboardNumber: str = Form(...), projectName: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_request_db)): # onboardNumber: str = Form(...), projectName: str = Form(...),
-    user_folder = os.path.join("Files", Username)
+    # Проверка уникальности projectName
+    existing_project = db.query(Request).filter(Request.project_name == projectName).first()
+    if existing_project:
+        raise HTTPException(status_code=400, detail="project name already exists")
+    
+    # Проверка уникальности имени файла
+    existing_file = db.query(Request).filter(Request.linkname == file.filename).first()
+    if existing_file:
+        raise HTTPException(status_code=400, detail="filename already exists")
+    
+    user_folder = os.path.join("./app/Files", Username)
     
     file_path = os.path.join(user_folder, file.filename)
 
@@ -147,7 +157,7 @@ async def delete_user(user_id: int, db: Session = Depends(get_db), request_db: S
     # Get and delete all requests of the user
     user_requests = request_db.query(Request).filter(Request.username == user.username).all()
     for request in user_requests:
-        user_folder = os.path.join("Files", request.username)
+        user_folder = os.path.join("./app/Files", request.username)
         file_path = os.path.join(user_folder, request.linkname)
         
         # Remove the file if it exists
@@ -170,7 +180,7 @@ async def delete_request(request_id: int, db: Session = Depends(get_request_db))
     
     
     # Construct the file path
-    user_folder = os.path.join("Files", request.username)
+    user_folder = os.path.join("./app/Files", request.username)
     file_path = os.path.join(user_folder, request.linkname)
     
     # Remove the file if it exists
@@ -191,21 +201,4 @@ async def read_user_requests(username: str, db: Session = Depends(get_request_db
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
-# // База данных - запросы (str)
-
-# // Имя пользователя
-# // Project-name (Заданное пользователем)
-# // Date + time creation
-# // on-board number
-# // Linkname (file.filename + time_sec)
-
-
-# // 1) Создать БД с инфой о запросах (СДЕЛАНО)
-# // 2) Drag'n Drop - создание папки username, сохранение tmp файла там + инфа о запросах в БД(СДЕЛАНО)
-# // 3) Обязательное имя для проекта - ЧТОБЫ НАЖАТЬ UPLOAD (СДЕЛАНО)
-# // 4) Обработчик DD, чтобы загружал только CSV  (СДЕЛАНО)
-# // 5) Подумать над логикой удаления TMP, если была не нажата кнопка Upload/Окно закрылось (СДЕЛАНО)
-
-
-# // 6) Сымитировать обработку ML
 
