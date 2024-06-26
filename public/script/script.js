@@ -31,6 +31,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Кнопка для отображения профиля
+    var userInfoButton = document.getElementById("userLogo");
+    var projectsButton = document.querySelector(".Projects a");
+
+    userInfoButton.onclick = function(event) {
+        event.preventDefault();
+        alert("You cannot access the profile at this stage.");
+    }
+
+    projectsButton.onclick = function(event) {
+        event.preventDefault();
+        alert("You cannot access projects at this stage.");
+    }
+
     s7Logo.onclick = function(event) {
         event.preventDefault();
         s7Logo.classList.add('green-effect');

@@ -36,24 +36,31 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'main.html';
         }, 100); // Задержка в миллисекундах
     }
-
-
-
+    
     // Кнопка удаления аккаунта
     var OutButton = document.getElementById("deleteAcc");
 
-    OutButton.onclick = function () {
-        deleteUser();
-        // Удаление данных пользователя из Local Storage
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('email');
-        profile.style.display = "none";
-        setTimeout(function() {
-            window.location.href = 'main.html';
-        }, 100); // Задержка в миллисекундах
+    OutButton.onclick = async function () {
+        const isDeleted = await deleteUser();
+        if (isDeleted) {
+            // Удаление данных пользователя из Local Storage только если удаление успешно
+            localStorage.removeItem('id');
+            localStorage.removeItem('username');
+            localStorage.removeItem('email');
+            profile.style.display = "none";
+            setTimeout(function() {
+                window.location.href = 'main.html';
+            }, 100); // Задержка в миллисекундах
+        }
     }
 
+    s7Logo.onclick = function(event) {
+        event.preventDefault();
+        s7Logo.classList.add('green-effect');
+        setTimeout(function() {
+            s7Logo.classList.remove('green-effect');
+        }, 500); // Duration of the animation
+    }
 
 });
 
@@ -178,14 +185,6 @@ clearButton.addEventListener('click', () => {
     uploadButton.disabled = true; // Disable the upload button
 });
 
-s7Logo.onclick = function(event) {
-    event.preventDefault();
-    s7Logo.classList.add('green-effect');
-    setTimeout(function() {
-        s7Logo.classList.remove('green-effect');
-    }, 500); // Duration of the animation
-}
-
 uploadButton.disabled = false;
 
 uploadButton.addEventListener('click', async (event) => {
@@ -292,15 +291,26 @@ inputField.addEventListener('focus', showSuggestions);
 
 async function deleteUser() {
     var userId = localStorage.getItem('id');
-    if (confirm('Do you really want to delete the request?')) {
+    if (!confirm('Do you really want to delete the user?')) {
+        return false;
+    }
+    
+    try {
         const response = await fetch(`http://127.0.0.1:8000/users/${userId}`, {
             method: 'DELETE',
         });
+
         if (response.ok) {
             alert('The user was deleted successfully.');
+            return true;
         } else {
             alert('Error deleting the user.');
+            return false;
         }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the user.');
+        return false;
     }
 }
 
@@ -320,7 +330,7 @@ async function fetchRequests() {
         projectNameCell.innerHTML = `<a href='#' onclick="GoToRequest(${request.id}); return false;">${request.project_name}</a>`;
         onboardNumberCell.textContent = request.onboard_number;
         createdAtCell.textContent = new Date(request.created_at).toLocaleString();
-        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Удалить</a>`;
+        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Delete</a>`;
     });
 }
 
@@ -338,12 +348,10 @@ async function deleteRequest(requestId) {
     }
 }
 
-
 async function GoToRequest(requestId) {
     localStorage.setItem('id_request', requestId);
     window.location.href = "request.html";
 }
-
 
 window.onload = () => {
     fetchRequests();

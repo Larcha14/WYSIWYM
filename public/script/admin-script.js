@@ -1,3 +1,16 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const s7Logo = document.getElementById('s7Logo');
+    
+    if (s7Logo) {
+        s7Logo.onclick = function(event) {
+            event.preventDefault();
+            s7Logo.classList.add('green-effect');
+            setTimeout(function() {
+                s7Logo.classList.remove('green-effect');
+            }, 500); // Duration of the animation
+        }
+    }
+});
 
 async function fetchUsers() {
     const response = await fetch('http://127.0.0.1:8000/users/');
@@ -14,7 +27,7 @@ async function fetchUsers() {
         emailCell.textContent = user.email;
         idCell.textContent = user.id;
         passw.textContent = user.password;
-        actionCell.innerHTML = `<a href="#" onclick="deleteUser(${user.id}); return false;">Удалить</a>`;
+        actionCell.innerHTML = `<a href="#" onclick="deleteUser(${user.id}); return false;">Delete</a>`;
     });
 }
 async function deleteUser(userId) {
@@ -50,7 +63,7 @@ async function fetchRequests() {
         onboardNumberCell.textContent = request.onboard_number;
         createdAtCell.textContent = new Date(request.created_at).toLocaleString();
         linknameCell.textContent = request.linkname;
-        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Удалить</a>`;
+        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Delete</a>`;
     });
 }
 
@@ -67,7 +80,6 @@ async function deleteRequest(requestId) {
         }
     }
 }
-
 
 window.onload = () => {
     fetchUsers();
