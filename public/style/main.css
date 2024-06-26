@@ -68,9 +68,6 @@
     opacity: 0.8;
 }
 
-/* .navbar-menu li button:hover{
-    text-decoration: underline;
-} */
 
 .navbar-menu li button:active{
     transform: scale(0.95);
@@ -78,13 +75,14 @@
 }
 
 /* main */
-
 .Main_content {
     background-image: url('./images/image1.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Делаем фон фиксированным */
     width: 100%;
-    height: 100vh;
+    min-height: 100vh; /* Устанавливаем минимальную высоту в 100% экрана */
 }
 
 .Main_content .container {

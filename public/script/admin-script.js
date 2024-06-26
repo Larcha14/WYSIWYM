@@ -27,7 +27,7 @@ async function fetchUsers() {
         emailCell.textContent = user.email;
         idCell.textContent = user.id;
         passw.textContent = user.password;
-        actionCell.innerHTML = `<a href="#" onclick="deleteUser(${user.id}); return false;">Delete</a>`;
+        actionCell.innerHTML = `<a href="#" class="delete-link" onclick="deleteUser(${user.id}); return false;">Delete</a>`;
     });
 }
 async function deleteUser(userId) {
@@ -63,7 +63,7 @@ async function fetchRequests() {
         onboardNumberCell.textContent = request.onboard_number;
         createdAtCell.textContent = new Date(request.created_at).toLocaleString();
         linknameCell.textContent = request.linkname;
-        actionCell.innerHTML = `<a href="#" onclick="deleteRequest(${request.id}); return false;">Delete</a>`;
+        actionCell.innerHTML = `<a href="#" class="delete-link" onclick="deleteRequest(${request.id}); return false;">Delete</a>`;
     });
 }
 
