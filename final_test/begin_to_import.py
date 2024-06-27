@@ -13,30 +13,40 @@ class AircraftModel:
     def __init__(self):
         self.models = {}
         self.scaler = StandardScaler()
-        self.dates = {}
+        self.df = {}
 
     def get_train_dataset(self, X_train, y_train):
         df = X_train.merge(y_train, on=['acnum', 'pos', 'reportts'])
         cols = ['egt', 'n1a', 'n2a', 'nf', 'ff', 'mn', 't2', 'tat', 'oat', 'alt',
-                'p2e', 'wai', 'nai', 'prv', 'hpv', 'xf', 'acnum', 'egtm']
+                'p2e', 'wai', 'nai', 'prv', 'hpv', 'xf', 'acnum', 'egtm', 'pos']
         dataset = df[cols]
         return dataset
     
     def get_dataset(self, X_test):
         cols = ['egt', 'n1a', 'n2a', 'nf', 'ff', 'mn', 't2', 'tat', 'oat', 'alt',
-                'p2e', 'wai', 'nai', 'prv', 'hpv', 'xf', 'acnum']
+                'p2e', 'wai', 'nai', 'prv', 'hpv', 'xf', 'acnum', 'reportts', 'pos']
         dataset = X_test[cols]
-        for acnum in X_test['acnum'].unique():
-            df = X_test[X_test['acnum'] == acnum]
-            self.dates[acnum] = df['reportts']
+        for acnum in dataset['acnum'].unique():
+            df = dataset[dataset['acnum'] == acnum]
+            self.df[acnum] = df
+        dataset = dataset.drop('reportts', axis=1)
         return dataset
 
     def add_features(self, df):
         df['egt_ff'] = df['egt'] * df['ff']
         df['n1a_n2a'] = df['n1a'] * df['n2a']
-        df['mean'] = df.mean(axis=1)
-        df['std'] = df.std(axis=1)
+        
+        df['egt_diff_tat'] = df['egt'] - df['tat']
+        df['n1a_diff_nf'] = df['n1a'] - df['nf']
+        
+        df['log_egt'] = np.log(df['egt'] + 1)
+        df['log_ff'] = np.log(df['ff'] + 1)
+        
+        df['n1a_squared'] = df['n1a'] ** 2
+        df['n2a_squared'] = df['n2a'] ** 2
+        
         return df
+
     
     def train_model(self, df):
         metrics = {}
@@ -96,7 +106,8 @@ class AircraftModel:
             else:
                 raise ValueError(f"No predictions stored for aircraft model {acnum}")
         predictions = results[aircraft]
-        predictions = pd.DataFrame({'Date': self.dates[aircraft], 'Predict': predictions})
+        predictions = pd.DataFrame({'Predict': predictions})
+        predictions = pd.concat([self.df[aircraft], predictions], axis=1)
         predictions.to_csv(f'predict_{aircraft}.csv', index=False)
         return results
     
@@ -112,7 +123,6 @@ class AircraftModel:
         for column in columns_to_fill:
             df[column].fillna(df[column].median(), inplace=True)
         return df
-    import pandas as pd
 
     def emission_processing(self, df):
         limits = pd.read_excel('../DATA/PW1100 Parameters.xlsx', sheet_name='Cruise Report<01>', engine='openpyxl')
@@ -124,7 +134,6 @@ class AircraftModel:
             min_val = row['Min']
             max_val = row['Max']
             limit_dict[feature] = (min_val, max_val)
-
 
         for feature, (min_val, max_val) in limit_dict.items():
             if feature in df.columns:
