@@ -108,7 +108,8 @@ class AircraftModel:
         predictions = results[aircraft]
         predictions = pd.DataFrame({'Predict': predictions})
         predictions = pd.concat([self.df[aircraft], predictions], axis=1)
-        predictions.to_csv(f'predict_{aircraft}.csv', index=False)
+        predictions.to_csv(f'predict_{aircraft} pos1.csv', index=False)
+        predictions.to_csv(f'predict_{aircraft} pos2.csv', index=False)
         return results
     
     def percent_missing(self, df):
