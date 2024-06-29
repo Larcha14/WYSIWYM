@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.svm import SVR
 from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error, r2_score
+from joblib import dump, load
 import numpy as np
 import pandas as pd
 
@@ -147,6 +148,7 @@ class AircraftModel:
 # df = air.get_train_dataset(X_train, y_train)
 # df = air.clear_data(df)
 # metrics = air.train_model(df)
+# dump(air,"model.joblib")
 # print(metrics)
 
         
