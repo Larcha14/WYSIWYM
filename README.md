@@ -14,12 +14,13 @@ pip install -r requirements.txt
 ```shell
 python -m venv myenv
 ```
-2. Активируйте виртуальное окружение:
-   На Windows:
+2. Активируйте виртуальное окружение: 
+
+&nbsp;&nbsp;&nbsp;&nbsp;На Windows:
 ```shell
 myenv\Scripts\activate
 ```
-   На macOS и Linux:
+&nbsp;&nbsp;&nbsp;&nbsp;На macOS и Linux:
 ```shell
 source myenv/bin/activate
 ```
