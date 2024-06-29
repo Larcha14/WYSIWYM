@@ -35,9 +35,26 @@
                 Project: 
             </div>
             <div class="Main_lists" style="display: grid;" id="mainList">
+                <!-- Первый график -->
+                <select id="yColumnSelect1"></select>
+                <label>
+                    <input type="checkbox" id="egtmCheckbox1" />
+                    Show Predict
+                </label>
+                <div id="plotlyChart1" style="width:100%;max-width:1536px;height:400px;"></div>
 
-                
+                <!-- Второй график -->
+                <select id="yColumnSelect2" style="margin-top: 30px;"></select>
+                <label>
+                    <input type="checkbox" id="egtmCheckbox2" />
+                    Show Predict
+                </label>
+                <div id="plotlyChart2" style="width:100%;max-width:1536px;height:400px;"></div>
             </div>
+
+
+
+
 
             <div class="profile" id="profile">
                 <form action="#" class="profile-content">
@@ -80,6 +97,7 @@
         </div>
     </main>
     <script src="./script/request.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </body>
 </html>
 

@@ -1,6 +1,7 @@
 * {
     margin: 0px;
     padding: 0px;
+    font-family: 'Helvetica';
 }
 
 .navbar {
@@ -142,6 +143,7 @@
     border-style: none;
     border-radius: 60px;
     cursor: pointer;
+    transition: 0.5s ;
 }
 
 .Sign_in_button:active {
@@ -149,6 +151,9 @@
     opacity: 0.8;
 }
 
+.Sign_in_button:hover {
+    background-color: #dfe1c4; /* Цвет кнопки при наведении */
+  }
 /* ---Стили для окна регистрации (входа)--- */
 
 .sign-in {

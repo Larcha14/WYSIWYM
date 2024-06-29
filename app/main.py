@@ -198,7 +198,32 @@ async def read_user_requests(username: str, db: Session = Depends(get_request_db
     return requests
 
 
+# Эндпоинт для получения путей к CSV файлам
+@app.get("/requests/{request_id}/csv-files")
+async def get_request_csv_files(request_id: int, db: Session = Depends(get_request_db)):
+    # Находим реквест по ID
+    request = db.query(Request).filter(Request.id == request_id).first()
+    if not request:
+        raise HTTPException(status_code=404, detail="Request not found")
+
+    # Находим пользователя по имени в реквесте
+    username = request.username
+
+    # Создаем пути к файлам
+    user_folder = os.path.join('./app/Files', username)
+    filename_base = request.linkname
+    csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
+    csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
+    if not os.path.exists(csv_file1) or not os.path.exists(csv_file2):
+        raise HTTPException(status_code=404, detail="error one or both files are not exist")
+
+    return {"csv_file1": csv_file1, "csv_file2": csv_file2}
+
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
-
+# 1 - столбец date + time
+# 2 - egtm (можем либо поставить галочку либо нет, отображение соответственно)
+# 3 - 14 param from source dataset(названия)
