@@ -1,13 +1,17 @@
-from joblib import load, dump
+from joblib import load
 from begin_to_import import AircraftModel
 import pandas as pd
 
 data = pd.read_csv('../DATA/X_test.csv')
 model = load('model.joblib')
-predictions = model.predict(data,'VQ-BDU')
-pos = 2
-for df in predictions:
-    df.to_csv(f'predict_VQ-BDU_pos_{pos}.csv', index=False)
-    pos -= 1
+aircraft = 'VQ-BGU'
+predictions = model.predict(data, aircraft)
+
+positions = data['pos'].unique()
+
+for pos in positions:
     
-#(f'predict_{aircraft}_pos_{pos}.csv', index=False)
+    pred_for_pos = model.predict(data[data['pos'] == pos], aircraft)
+    
+    for i, df in enumerate(pred_for_pos):
+        df.to_csv(f'predict_{aircraft}_pos_{pos}_part_{i+1}.csv', index=False)

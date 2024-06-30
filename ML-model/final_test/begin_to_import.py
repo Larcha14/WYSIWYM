@@ -111,7 +111,6 @@ class AircraftModel:
                 output_df = pd.concat([self.df[aircraft][self.df[aircraft]['pos'] == pos].reset_index(drop=True), predictions_df], axis=1)
                 # output_df.to_csv(f'predict_{aircraft}_pos_{pos}.csv', index=False)
 
-                # Добавляем output_df в список
                 prediction_dfs.append(output_df)
             else:
                 raise ValueError(f"No predictions stored for aircraft model {aircraft}")
