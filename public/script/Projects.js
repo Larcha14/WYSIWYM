@@ -196,7 +196,7 @@ let secondButtonActive;
 button1.addEventListener('click', () => {
     event.preventDefault();
     firstButtonActive = handleButtonClick(button1);
-    button1.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
+    button1.style.backgroundColor = '#C4D600';
 
 
     console.error();
@@ -211,13 +211,7 @@ button1.addEventListener('click', () => {
 button2.addEventListener('click', () =>  {
     event.preventDefault();
     secondButtonActive = handleButtonClick(button2);
-    button2.style.backgroundColor = 'rgba(9, 218, 9, 0.849)';
-
-
-    console.error();
-    console.warn();
-    console.info();
-    console.table();
+    button2.style.backgroundColor = '#C4D600';
 
     firstButtonActive = undefined;
     button1.style.backgroundColor = 'white';

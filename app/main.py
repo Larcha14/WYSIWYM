@@ -4,8 +4,10 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from datetime import datetime
+from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from datetime import datetime, timedelta
+from pathlib import Path
 import os, uvicorn
 
 DATABASE_URL = "sqlite:///./app/users.db"
@@ -22,8 +24,6 @@ Base = declarative_base()
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "http://localhost:8000",
     "http://127.0.0.1:5500",
 ]
 
@@ -42,12 +42,15 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
 
+def get_corrected_time():
+    return datetime.utcnow() + timedelta(hours=3)
+
 class Request(Base):
     __tablename__ = "requests"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, index=True)
     project_name = Column(String, unique=True, index=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=get_corrected_time)
     onboard_number = Column(String)
     linkname = Column(String, unique=True, index=True)
 
@@ -159,12 +162,28 @@ async def delete_user(user_id: int, db: Session = Depends(get_db), request_db: S
     for request in user_requests:
         user_folder = os.path.join("./app/Files", request.username)
         file_path = os.path.join(user_folder, request.linkname)
+
+        filename_base = request.linkname
+        csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
+        csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
         
         # Remove the file if it exists
         if os.path.exists(file_path):
             os.remove(file_path)
+
+        if os.path.exists(csv_file1):
+            os.remove(csv_file1)
+        if os.path.exists(csv_file2):
+            os.remove(csv_file2)
         
         request_db.delete(request)
+
+
+    user_folder = os.path.join("./app/Files", user.username)
+    # Remove the direction if it exists
+    if os.path.exists(user_folder):
+        os.rmdir(user_folder)
+
     request_db.commit()
     
     db.delete(user)
@@ -182,10 +201,19 @@ async def delete_request(request_id: int, db: Session = Depends(get_request_db))
     # Construct the file path
     user_folder = os.path.join("./app/Files", request.username)
     file_path = os.path.join(user_folder, request.linkname)
+
+    filename_base = request.linkname
+    csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
+    csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
     
     # Remove the file if it exists
     if os.path.exists(file_path):
         os.remove(file_path)
+
+    if os.path.exists(csv_file1):
+        os.remove(csv_file1)
+    if os.path.exists(csv_file2):
+        os.remove(csv_file2)
 
     db.delete(request)
     db.commit()
@@ -224,6 +252,4 @@ async def get_request_csv_files(request_id: int, db: Session = Depends(get_reque
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
-# 1 - столбец date + time
-# 2 - egtm (можем либо поставить галочку либо нет, отображение соответственно)
-# 3 - 14 param from source dataset(названия)
+

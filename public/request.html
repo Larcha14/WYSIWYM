@@ -36,19 +36,25 @@
             </div>
             <div class="Main_lists" style="display: grid;" id="mainList">
                 <!-- Первый график -->
-                <select id="yColumnSelect1"></select>
-                <label>
-                    <input type="checkbox" id="egtmCheckbox1" />
-                    Show Predict
-                </label>
-                <div id="plotlyChart1" style="width:100%;max-width:1536px;height:400px;"></div>
+                <div class="graph-settings">
+                    <label class="select-settings" for="yColumnSelect1"> Select Y-axis option</label>
+                    <select id="yColumnSelect1"></select>
+                    <label class="checkbox-settings">
+                        <input type="checkbox" id="egtmCheckbox1" />
+                        Show Predict
+                    </label>
+                </div>
+                <div id="plotlyChart1" style="width:100%;max-width:1536px;height:400px; margin-bottom: 22px;"></div>
 
                 <!-- Второй график -->
-                <select id="yColumnSelect2" style="margin-top: 30px;"></select>
-                <label>
-                    <input type="checkbox" id="egtmCheckbox2" />
-                    Show Predict
-                </label>
+                <div class="graph-settings">
+                    <label class="select-settings" for="yColumnSelect2"> Select Y-axis option</label>
+                    <select id="yColumnSelect2"></select>
+                    <label class="checkbox-settings">
+                        <input type="checkbox" id="egtmCheckbox2" />
+                        Show Predict
+                    </label>
+                </div>
                 <div id="plotlyChart2" style="width:100%;max-width:1536px;height:400px;"></div>
             </div>
 
@@ -62,8 +68,10 @@
                         <div class="profile-data">
                             <p>Your login: <span class="user-login" id="userLogin">Some_login2024</span></p>
                             <p>Your email: <span class="user-email" id="userEmail">Some_login2024@email.com</span></p>
-
                         </div>
+
+                        <hr id="h-line">
+
                         <button type="button" class="deleteAcc" id="deleteAcc">Delete account</button>
                         <button type="button" class="sign-out" id="sign-out">Sign out</button>
                     </div>

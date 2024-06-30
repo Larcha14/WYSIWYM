@@ -61,6 +61,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+
+    
+
 });
 
 
@@ -316,3 +319,12 @@ function populateColumnSelector(labels, selectId) {
 
     yColumnSelect.selectedIndex = 0;
 }
+
+// -----escape to close--------
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        if (profile.style.display == "flex") {
+            profile.style.display = "none";
+        }
+    }
+});

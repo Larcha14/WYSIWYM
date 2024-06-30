@@ -75,6 +75,7 @@
 
 .navbar-menu li a:hover{
     text-decoration: underline;
+    transform: scale(1.05);
 }
 
 .navbar-menu li a:active{
@@ -84,6 +85,7 @@
 
 .navbar-menu li button:hover{
     text-decoration: underline;
+    transform: scale(1.05);
 }
 
 .navbar-menu li button:active{
@@ -126,7 +128,7 @@
     color: #FFFFFF;
 }
 
-.Main_lists {
+/* .Main_lists {
     display: flex;
 }
 
@@ -182,7 +184,7 @@
 .Main_lists li a:active {
     transform: scale(0.95);
     opacity: 0.8;
-}
+} */
 
 /* -----------------profile data----------------------- */
 
@@ -250,6 +252,8 @@
     font-size: 16px;
     line-height: 18.4px;
     color: white;
+
+    transition: 0.5s;
     
 }
 
@@ -268,6 +272,8 @@
     font-size: 16px;
     line-height: 18.4px;
     color: white;
+
+    transition: 0.5s;
     
 }
 
@@ -279,6 +285,15 @@
 .sign-out:active {
     transform: scale(0.95);
     opacity: 0.8;
+}
+
+.deleteAcc:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.sign-out:hover {
+    transform: scale(1.05);
 }
 
 /* ---------------------- Add files (drag & drop) --------------------------- */
@@ -361,10 +376,11 @@
     line-height: 18.4px;
 
     color: black;
+
 }
 
 
-.add-files-container input[type="A/C"] {
+/* .add-files-container input[type="A/C"] {
     width: 380px;
     height: 42px;
     border-radius: 50px;
@@ -372,13 +388,13 @@
 
     margin-left: 21px;
     margin-top: 22px;
-}
+} */
 
 .add-files-container input[type="save"] {
     width: 606px;
     height: 42px;
     border-radius: 50px;
-    border: none;
+    border: groove black 1px;
     margin-left: 21px;
     margin-top: 22px;
 
@@ -388,7 +404,7 @@
     width: 154px;
     height: 42px;
     border-radius: 50px;
-    border: none;
+    border: groove black 1px;
 
     margin-left: 21px;
     margin-top: 22px;
@@ -400,12 +416,17 @@
     font-size: 16px;
     line-height: 18.4px;
 
-    color: rgba(117, 120, 123, 1);
+    transition: 0.5s;
+
 }
 
 .add-files-container button:active{
     transform: scale(0.95);
     opacity: 0.8;
+}
+
+.add-files-container button:hover {
+    transform: scale(1.05);
 }
 
 .overlay {
@@ -682,11 +703,11 @@ table {
   }
 
   tr:nth-child(even) {
-    background-color: #ffffff; /* Белый фон для четных строк */
+    background-color: #C4D600; /* Белый фон для четных строк */
   }
   
   tr:nth-child(odd) {
-    background-color: #C4D600;/* Зеленый фон для нечетных строк */
+    background-color: #FFFFFF;/* Зеленый фон для нечетных строк */
   }
 
 .admin-heading {
@@ -721,11 +742,11 @@ table {
 }
 
 tr:nth-child(even) {
-    background-color: #ffffff; /* Белый фон для четных строк */
+    background-color: #C4D600; /* Белый фон для четных строк */
   }
   
   tr:nth-child(odd) {
-    background-color: #C4D600;/* Зеленый фон для нечетных строк */
+    background-color: #FFFFFF;/* Зеленый фон для нечетных строк */
   }
 
 .requests-heading {
@@ -748,7 +769,7 @@ tr:nth-child(even) {
 /* Добавим стилей для ссылочек в таблице */
 
 .delete-link {
-    color: red;
+    color: black;
     text-decoration: none;
     font-weight: bold;
 }
@@ -777,3 +798,88 @@ tr:nth-child(even) {
 }
 
 
+/* Стили для графиков на странице реквеста */
+
+.graph-settings {
+    display: flex;
+    background-color: #C4D600;
+    height: 100px;
+    width: 1536px;
+    align-items: center;
+    
+}
+
+.Main_lists select {
+
+    border-radius: 50px;
+    border: groove  1px #53565A;;
+    height: 40px;
+    width: 180px;
+
+    margin-left: 10px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #53565A;
+
+    transition: height 1s ease-in-out
+}
+
+.Main_lists select:hover {
+    cursor: pointer;
+}
+
+.Main_lists option {
+    text-align: center;
+    border-radius: 50px;
+}
+
+
+.Main_lists input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+.checkbox-settings {
+    margin-left: 962.83px;
+    font: 300 18px/22px 'Helvetica';
+    color: #53565A;
+}
+
+.select-settings {
+    margin-left: 40px;
+    font: 300 18px/22px 'Helvetica';
+    color: #53565A;
+}
+
+
+.checkbox-settings {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .checkbox-settings input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #53565A;
+    margin-right: 8px;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+    
+  .checkbox-settings input[type="checkbox"]:checked {
+    border-color: #53565A;
+    background-color: red;
+  }
+  
+  .checkbox-settings input[type="checkbox"]:checked::before {
+    opacity: 1;
+  }
+  
+  .checkbox-settings label {
+    font-size: 14px;
+    color: #333;
+  }

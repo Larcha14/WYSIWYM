@@ -11,15 +11,14 @@
 }
 
 .navbar .container {
-    height: inherit;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .navbar-menu {
     display: flex;
     list-style: none;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar-menu li{
@@ -40,10 +39,9 @@
 }
 
 .logo {
-    position: absolute;
     height: 48px;
-    left: 192px;
-    top: 16px;
+    margin-left: 192px;
+    margin-top: 16px;
 }
 
 .Projects {
@@ -143,7 +141,7 @@
     border-style: none;
     border-radius: 60px;
     cursor: pointer;
-    transition: 0.5s ;
+    transition: 0.5s;
 }
 
 .Sign_in_button:active {
@@ -153,13 +151,14 @@
 
 .Sign_in_button:hover {
     background-color: #dfe1c4; /* Цвет кнопки при наведении */
+    transform: scale(1.05); 
   }
 /* ---Стили для окна регистрации (входа)--- */
 
 .sign-in {
     position: absolute;
     display: none;
-    z-index: 1001;
+    z-index: 1500;
     width: 422px;
     height: 560px;
     background-color: rgba(234, 255, 0, 1);
@@ -231,6 +230,7 @@
     line-height: 18px;
 
     color: #FFFFFF;
+    transition: 0.3s;
 }
 
 /* #forgot_pass {
@@ -263,6 +263,7 @@
     text-decoration: none;
 
     color: #53565A;
+    transition: 0.3s;
 
 }
 
@@ -352,6 +353,7 @@
     line-height: 18px;
 
     color: #FFFFFF;
+    transition: 0.3s;
 }
 
 #have-acc {
@@ -369,16 +371,15 @@
     text-decoration: none;
 
     color: #53565A;
+    transition: 0.3s;
 }
 
 .main-form button:active {
     transform: scale(0.95);
-    opacity: 0.8;
 }
 
 .User button:active {
     transform: scale(0.95);
-    opacity: 0.8;
 }
 
 .plane_img {
@@ -404,6 +405,14 @@ input[type="password"] {
     padding-left: 10px; /* Adds padding to the left */
     width: calc(100% - 10px); /* Subtracts the padding value from the total width */
     box-sizing: border-box; /* Includes padding and border in the element's total width */
+}
+
+.sign-in button:hover {
+    transform: scale(1.05);
+}
+
+.sign-up button:hover {
+    transform: scale(1.05);
 }
 
 @keyframes greenPulse {
