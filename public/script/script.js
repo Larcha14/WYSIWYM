@@ -107,8 +107,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Сохраняем данные пользователя в Local Storage
             localStorage.setItem('username', username);
             localStorage.setItem('email', email);
+            localStorage.setItem('id', data.id);
 
-            window.location.href = "Projects.html";
+            window.location.href = "/projects";
         } else {
             alert("Registration failed: " + data.detail);
         }
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (username === "admin" && password === "admin"){
             alert("ADMIN login successful!");
-            window.location.href = "admin.html";
+            window.location.href = "/admin";
         } else{
 
         var response = await fetch("http://127.0.0.1:8000/login", {
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('email', data.email);
             localStorage.setItem('id', data.id);
 
-            window.location.href = "Projects.html";
+            window.location.href = "/projects";
         } else {
             alert("Login failed: " + data.detail);
         }

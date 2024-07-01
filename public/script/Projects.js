@@ -2,13 +2,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Получение данных пользователя из Local Storage
     var username = localStorage.getItem('username');
     var email = localStorage.getItem('email');
-    
+    var userId = localStorage.getItem('id');
+
+    if (!userId || !email || !username) {
+        alert('LocalStorage items not found.');
+        return false;
+    }
+
     if (username && email) {
         document.getElementById('userLogin').innerText = username;
         document.getElementById('userEmail').innerText = email;
     } else {
         // Если данные пользователя не найдены, перенаправить на страницу входа
-        window.location.href = 'main.html';
+        window.location.href = '/';
     }
 
     // Кнопка для отображения профиля
@@ -33,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('email');
         profile.style.display = "none";
         setTimeout(function() {
-            window.location.href = 'main.html';
+            window.location.href = '/';
         }, 100); // Задержка в миллисекундах
     }
     
@@ -49,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('email');
             profile.style.display = "none";
             setTimeout(function() {
-                window.location.href = 'main.html';
+                window.location.href = '/';
             }, 100); // Задержка в миллисекундах
         }
     }
@@ -270,6 +276,7 @@ uploadButton.addEventListener('click', async (event) => {
 
         if (response.ok) {
             alert('File uploaded successfully!');
+            window.location.reload();
             fileName.textContent = '';
             selectedFile = null;
             uploadButton.disabled = true; // Disable the upload button
@@ -311,7 +318,7 @@ async function deleteUser() {
 async function GoToRequest(requestId, projectName) {
     localStorage.setItem('id_request', requestId);
     localStorage.setItem('project_name', projectName);
-    window.location.href = "request.html";
+    window.location.href = "/request";
 }
 
 async function fetchRequests() {
@@ -347,7 +354,6 @@ async function deleteRequest(requestId) {
         }
     }
 }
-
 
 // -----escape to close--------
 document.addEventListener('keydown', function(event) {

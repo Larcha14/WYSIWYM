@@ -1,12 +1,13 @@
-from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form
+from fastapi import FastAPI, HTTPException, Depends, UploadFile, File, Form, Request
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta
+from starlette.middleware.base import BaseHTTPMiddleware
 from pathlib import Path
 import os, uvicorn
 
@@ -22,6 +23,15 @@ RequestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=reque
 Base = declarative_base()
 
 app = FastAPI()
+
+# Путь к корневой директории проекта
+project_root = Path(__file__).parent.parent
+
+app.mount("/style", StaticFiles(directory=project_root / "public" / "style"), name="style")
+app.mount("/script", StaticFiles(directory=project_root / "public" / "script"), name="script")
+app.mount("/images", StaticFiles(directory=project_root / "public" / "style" /"images"), name="images")
+app.mount("/files", StaticFiles(directory=project_root / "app" / "Files"), name="files")
+
 
 origins = [
     "http://127.0.0.1:5500",
@@ -80,6 +90,31 @@ def get_request_db():
     finally:
         db.close()
 
+
+# Маршруты для рендеринга HTML страниц
+@app.get("/", response_class=FileResponse)
+async def read_main():
+    return FileResponse(project_root / "public" / "main.html")
+
+# Маршрут для favicon.svg
+@app.get("/favicon.svg", include_in_schema=False)
+async def favicon():
+    return FileResponse(project_root / "public" / "style" / "images" / "s7-airlines-white.svg")
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(project_root / "public" / "style" / "images" / "s7-airlines-white.svg")
+
+async def read_admin():
+    return FileResponse(project_root / "public" / "admin.html")
+
+@app.get("/projects", response_class=FileResponse)
+async def read_projects():
+    return FileResponse(project_root / "public" / "Projects.html")
+
+@app.get("/request", response_class=FileResponse)
+async def read_request():
+    return FileResponse(project_root / "public" / "request.html")
 
 @app.post("/register/")
 async def register(user: UserCreate, db: Session = Depends(get_db)):
@@ -225,8 +260,7 @@ async def read_user_requests(username: str, db: Session = Depends(get_request_db
     requests = db.query(Request).filter(Request.username == username).all()
     return requests
 
-
-# Эндпоинт для получения путей к CSV файлам
+#Эндпоинт для получения путей к CSV файлам
 @app.get("/requests/{request_id}/csv-files")
 async def get_request_csv_files(request_id: int, db: Session = Depends(get_request_db)):
     # Находим реквест по ID
@@ -238,16 +272,22 @@ async def get_request_csv_files(request_id: int, db: Session = Depends(get_reque
     username = request.username
 
     # Создаем пути к файлам
-    user_folder = os.path.join('./app/Files', username)
+    user_folder = os.path.join('files', username)
     filename_base = request.linkname
     csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
     csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
-    if not os.path.exists(csv_file1) or not os.path.exists(csv_file2):
-        raise HTTPException(status_code=404, detail="error one or both files are not exist")
 
-    return {"csv_file1": csv_file1, "csv_file2": csv_file2}
+    # Путь на сервере
+    csv_file1_path = project_root / 'app' / csv_file1
+    csv_file2_path = project_root / 'app' / csv_file2
 
+    # Логирование путей для отладки
+    print(f"Checking file paths:\n{csv_file1_path}\n{csv_file2_path}")
 
+    if not csv_file1_path.exists() or not csv_file2_path.exists():
+        raise HTTPException(status_code=404, detail="One or both files do not exist")
+
+    return {"csv_file1": f"/{csv_file1}", "csv_file2": f"/{csv_file2}"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

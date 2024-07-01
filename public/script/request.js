@@ -5,14 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var projectName = localStorage.getItem('project_name');
     var id_project = localStorage.getItem('id_request');
 
-
-    
     if (username && email) {
         document.getElementById('userLogin').innerText = username;
         document.getElementById('userEmail').innerText = email;
     } else {
         // Если данные пользователя не найдены, перенаправить на страницу входа
-        window.location.href = 'main.html';
+        window.location.href = '/';
     }
     // Устанавливаем имя проекта в заголовке
     if (projectName) {
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('email');
         profile.style.display = "none";
         setTimeout(function() {
-            window.location.href = 'main.html';
+            window.location.href = '/';
         }, 100); // Задержка в миллисекундах
     }
 
@@ -56,14 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('email');
             profile.style.display = "none";
             setTimeout(function() {
-                window.location.href = 'main.html';
+                window.location.href = '/';
             }, 100); // Задержка в миллисекундах
         }
     }
-
-
-    
-
 });
 
 
@@ -94,7 +88,7 @@ async function deleteUser() {
 
 async function GoToRequest(requestId) {
     localStorage.setItem('id_request', requestId);
-    window.location.href = "request.html";
+    window.location.href = "/request";
 }
 
 
@@ -119,12 +113,12 @@ async function fetchRequestFiles() {
         const response = await fetch(`http://127.0.0.1:8000/requests/${id_project}/csv-files`);
         if (response.ok) {
             const data = await response.json();
-            const csvFile1 = data.csv_file1.replace(/\\/g, '/');  // Убедитесь, что используется правильный слэш
+            const csvFile1 = data.csv_file1.replace(/\\/g, '/');  
             const csvFile2 = data.csv_file2.replace(/\\/g, '/');
 
-            // Корректируем пути относительно корня вашего веб-сервера
-            const csvPath1 = `.${csvFile1}`;  // Укажите путь к первому CSV файлу
-            const csvPath2 = `.${csvFile2}`;  // Укажите путь ко второму CSV файлу
+            // Корректируем пути относительно корня веб-сервера
+            const csvPath1 = `.${csvFile1}`;  
+            const csvPath2 = `.${csvFile2}`;  
 
             loadCSVData(csvPath1, csvPath2);
         } else {
