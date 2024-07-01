@@ -4,10 +4,9 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, HTMLResponse, FileResponse, Response
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta
-from starlette.middleware.base import BaseHTTPMiddleware
 from pathlib import Path
 import os, uvicorn
 
@@ -32,18 +31,19 @@ app.mount("/script", StaticFiles(directory=project_root / "public" / "script"), 
 app.mount("/images", StaticFiles(directory=project_root / "public" / "style" /"images"), name="images")
 app.mount("/files", StaticFiles(directory=project_root / "app" / "Files"), name="files")
 
+# Для Live Server
 
-origins = [
-    "http://127.0.0.1:5500",
-]
+# origins = [
+#     "http://127.0.0.1:5500",
+# ]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 class User(Base):
     __tablename__ = "users"

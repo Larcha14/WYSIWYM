@@ -72,6 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        if (username.toLowerCase() === "admin"){
+            alert("You can't choose 'admin' as your username.");
+            return;
+        }
+
         if (!/^[^@]{3,}@[^@]{3,}\.[^@]{2,}$/.test(email)) {
             alert("Email must be in the format 'example'@'example'.'com' with at least 3 characters for each part, except for the 1st level domain");
             return;
