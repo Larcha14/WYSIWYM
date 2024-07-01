@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request</title>
+    <link rel="stylesheet" href="./style/Projects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antic+Didone&family=Oswald&family=Raleway:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">        
+            <ul class="navbar-menu">
+                <li class="logo">
+                    <a id="s7Logo"><img src="./style/images/S7 Logo.png" alt="s7logo" /></a>
+                </li>
+                <li class="Projects">
+                    <a id="pwd" href="/projects">Return to all requests</a>
+                </li>
+                <li class="User_logo">
+                    <button id="userLogo">
+                        <img src="./style/images/User.png" alt="User_logo">
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="Main_content">
+        <div class="main_container">
+            <div class="Heading" id="Heading">
+                Project: 
+            </div>
+            <div class="Main_lists" style="display: grid;" id="mainList">
+                <!-- Первый график -->
+                <div class="graph-settings">
+                    <label class="select-settings" for="yColumnSelect1"> Select Y-axis option</label>
+                    <select id="yColumnSelect1"></select>
+                    <label class="checkbox-settings">
+                        <input type="checkbox" id="egtmCheckbox1" />
+                        Show Predict
+                    </label>
+                </div>
+                <div id="plotlyChart1" style="width:100%;max-width:1536px;height:400px; margin-bottom: 22px;"></div>
+
+                <!-- Второй график -->
+                <div class="graph-settings">
+                    <label class="select-settings" for="yColumnSelect2"> Select Y-axis option</label>
+                    <select id="yColumnSelect2"></select>
+                    <label class="checkbox-settings">
+                        <input type="checkbox" id="egtmCheckbox2" />
+                        Show Predict
+                    </label>
+                </div>
+                <div id="plotlyChart2" style="width:100%;max-width:1536px;height:400px;"></div>
+            </div>
+
+
+
+
+
+            <div class="profile" id="profile">
+                <form action="#" class="profile-content">
+                    <div class="profile-container">
+                        <div class="profile-data">
+                            <p>Your login: <span class="user-login" id="userLogin">Some_login2024</span></p>
+                            <p>Your email: <span class="user-email" id="userEmail">Some_login2024@email.com</span></p>
+                        </div>
+
+                        <hr id="h-line">
+
+                        <button type="button" class="deleteAcc" id="deleteAcc">Delete account</button>
+                        <button type="button" class="sign-out" id="sign-out">Sign out</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="add-files" id="add-files">
+                <form action="#">
+                    <div class="add-files-container">
+                        <div class="add-files-header">
+                            <h1>Add files</h1>
+                        </div>
+                        <input type="text" id="on-board-number" placeholder="Enter/select on-board number">
+                        <ul id="suggestions-list" class="suggestions-list"></ul>         
+                        <div class="drag-drop" id="drag-drop">
+                            <h1 id="drag-drop-text">Choose a file or drag it here</h1>
+                            <div id="file-preview" style="display:none;">
+                                <img id="file-image" />
+                                <p id="file-name"></p>
+                                <button id="clear-button" style="display:none;">Clear</button>
+                            </div>
+                        </div>                                
+                         <input type="save" id="project-name" placeholder="Enter the name of the project...">
+                        <button type="button" class="upload" id="upload-button" disabled>Upload</button>
+                    </div>
+                    <div id="error-message" style="color: red; display: none;">Please fill out all fields and select a file.</div>
+                </form>
+            </div>
+
+            <div class="overlay" id="overlay"></div>
+        </div>
+    </main>
+    <script src="./script/request.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
+

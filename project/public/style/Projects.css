@@ -1,0 +1,885 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.navbar {
+    width: 100%;
+    height: 80px;
+    box-shadow: 0 4px 10px  rgba(0, 0, 0, 0.2);
+}
+
+.navbar .container {
+    height: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+}
+
+.navbar-menu li{
+    display: inline-block;
+}
+
+.navbar-menu li a{
+    display: inline-block;
+    text-decoration: none;
+    background-color: white;
+    font: 300 20px/24px 'Helvetica';
+    color: #53565A;
+}
+
+.navbar-menu li button {
+    background: none;
+    border: none;
+}
+
+.logo {
+    position: absolute;
+    height: 48px;
+    left: 192px;
+    top: 16px;
+}
+
+.add_button {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    right: 470.25px;
+    top: 22px;
+}
+
+.Projects {
+    position: absolute;
+    /* width: 71px; */
+    height: 18px;
+    right: 319px;
+    top: 32px;
+}
+
+.User_logo {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    right: 192px;
+    top: 16px;
+}
+
+#pwd {
+    text-decoration: underline;
+}
+
+.navbar-menu li a:hover{
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+.navbar-menu li a:active{
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.navbar-menu li button:hover{
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+.navbar-menu li button:active{
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.Main_content {
+    background-image: url('./images/image1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Делаем фон фиксированным */
+    width: 100%;
+    min-height: 100vh; /* Устанавливаем минимальную высоту в 100% экрана */
+}
+
+
+.Main_content .main_container {       /* задний темный фон */
+    min-height: inherit;
+    justify-content: center;
+    margin-left: calc(50% - 1536px/2);
+    background-color:rgba(0, 0, 0, 0.26);
+    width: 1536px;
+}
+
+.Heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 0, 0.26);
+    height: 80px;
+    width: 1536px;
+
+    font-family: 'Antic Didone';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    color: #FFFFFF;
+}
+
+/* .Main_lists {
+    display: flex;
+}
+
+.Main_lists ul {
+    display: inline-block;
+    list-style: none;
+}
+
+.Main_lists li {
+    height: 128px;
+    width: 1536px;
+    display: flex;
+    align-items: center;
+}
+
+.Main_lists li:nth-child(odd) {
+    background: #C4D600;
+}
+
+.Main_lists li:nth-child(even) {
+    background: #FFFFFF
+}
+
+.Main_lists li span { 
+    margin-left: 150px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18px;
+
+    color: #000000;
+}
+
+.Main_lists li a {
+    margin-left: 150px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: none;
+
+    color: #000000;
+}
+
+.Main_lists li a:hover {
+    text-decoration: underline;
+}
+
+.Main_lists li a:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+} */
+
+/* -----------------profile data----------------------- */
+
+.profile {
+    display: none;
+    position: absolute;
+    z-index: 1001;
+    background-color: white;
+    border-radius: 0px 0px 50px 50px;
+    border: 1px groove black;
+
+    height: 288.8px;
+    width: 430px;
+
+    right: 0px;
+    top: 80px;
+}
+
+.profile .profile-container {
+    height: inherit;
+    width: inherit;
+}
+
+.profile-data p{
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+
+    padding-left: 36px;
+    padding-top: 28px;
+}
+
+.user-login {
+    font-family: 'Helvetica';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18.4px;
+}
+
+.user-email {
+    font-family: 'Helvetica';
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18.4px;
+}
+
+#h-line {
+    margin-top: 28px;
+    background-color: black;
+}
+
+.sign-out {
+    width: 358px;
+    height: 42px;
+
+    margin-left: 36px;
+    margin-top: 28px;
+
+    border-radius: 50px;
+    background-color: rgba(117, 120, 123, 1);
+
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+    color: white;
+
+    transition: 0.5s;
+    
+}
+
+.deleteAcc {
+    width: 358px;
+    height: 42px;
+
+    margin-left: 36px;
+    margin-top: 28px;
+
+    border-radius: 50px;
+    background-color: rgb(218, 33, 17);
+
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+    color: white;
+
+    transition: 0.5s;
+    
+}
+
+.deleteAcc:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.sign-out:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.deleteAcc:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.sign-out:hover {
+    transform: scale(1.05);
+}
+
+/* ---------------------- Add files (drag & drop) --------------------------- */
+
+.add-files {
+    display: none;
+    position: absolute;
+    z-index: 1001;
+    width: 823px;
+    height: 560px;
+    border-radius: 50px;
+
+    background-color: rgba(234, 255, 0, 1);
+    left: calc(50% - 823px/2);
+    top: 220px;
+    
+}
+
+.add-files .add-files-container {
+    width: inherit;
+    height: inherit;
+}
+
+.add-files-header {
+    height: 68px;
+    width: 823px;
+    border-radius: 50px 50px 0px 0px;
+
+    background-color: rgba(196, 214, 0, 1);
+}
+
+.add-files-header h1 {
+    width: 136px;
+    height: 37px;
+
+    padding-left: 344px;
+    padding-top: 15px;
+
+    font-family: 'Helvetica';
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 36.8px;
+
+    color: white;
+}
+
+.add-files-container input[type="text"] {
+    width: 781px;
+    height: 42px;
+    border-radius: 50px;
+    border: none;
+
+    margin-left: 21px;
+    margin-top: 22px;
+}
+
+.choise-plane-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+#plane-var1, #plane-var2 { 
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 228px;
+    height: 42px;
+
+    background-color: white;
+    border-radius: 50px;
+
+    margin-top: 22px;
+
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+
+    color: black;
+
+}
+
+
+/* .add-files-container input[type="A/C"] {
+    width: 380px;
+    height: 42px;
+    border-radius: 50px;
+    border: none;
+
+    margin-left: 21px;
+    margin-top: 22px;
+} */
+
+.add-files-container input[type="save"] {
+    width: 606px;
+    height: 42px;
+    border-radius: 50px;
+    border: groove black 1px;
+    margin-left: 21px;
+    margin-top: 22px;
+
+}
+
+.upload {
+    width: 154px;
+    height: 42px;
+    border-radius: 50px;
+    border: groove black 1px;
+
+    margin-left: 21px;
+    margin-top: 22px;
+
+    background-color: white;
+
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+
+    transition: 0.5s;
+
+}
+
+.add-files-container button:active{
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.add-files-container button:hover {
+    transform: scale(1.05);
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* -----------------------loading animation------------------------------- */
+
+/* .loader {
+    z-index: 1002;
+    width: 138px;
+    height: 138px;
+    display: flex;
+    position: absolute;
+    top: 471px;
+    left: calc(50% - 138px/2);
+} */
+
+/*------------------------information block-------------------------------- */
+
+.main_container .info-block {
+    height: inherit;
+    width: inherit;
+    display: none;
+}
+
+.info-block .info-block-container {
+    z-index: 1000;
+}
+
+.ac-type {
+    width: 380px;
+    height: 42px;
+    border-radius: 50px;
+    border-style: none;
+
+    margin-top: 64px;
+    margin-left: 64px;
+}
+
+.ac-reg {
+    width: 380px;
+    height: 42px;
+    border-radius: 50px;
+    border-style: none;
+
+    margin-top: 64px;
+    margin-left: 21px;
+}
+
+.report {
+    width: 1408px;
+    height: 560px;
+    border-radius: 50px;
+
+    margin-left: 64px;
+    margin-top: 64px;
+
+    background-color: white;
+}
+
+.r-plot {
+    width: 190px;
+    height: 42px;
+    border-radius: 50px 0px 0px 0px;
+    border-style: none;
+
+    background-color: rgba(196, 214, 0, 1);
+
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+
+    color: white;
+
+}
+
+.r-plot:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.r-table {
+    width: 190px;
+    height: 42px;
+    border-radius: 0px 0px 50px 0px;
+    border-style: none;
+
+    background-color: rgba(117, 120, 123, 1);
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+
+    color: white;
+}
+
+.r-table:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+.img1 {
+    display: flex;
+    width: 1336px;
+    height: 434px;
+
+    margin-left: 36px;
+    margin-top: 42px;
+}
+
+.img2 {
+    display: none;
+    width: 1336px;
+    height: 434px;
+
+    margin-left: 36px;
+    margin-top: 42px;
+}
+
+.compare_with {
+    width: 606px;
+    height: 42px;
+    border-radius: 50px;
+    border-style: none;
+
+    margin-left: 64px;
+    margin-top: 64px;
+
+}
+
+.Compare {
+    width: 154px;
+    height: 42px;
+    border-radius: 50px;
+    border-style: none;
+
+    margin-left: 21px;
+    margin-top: 64px;
+    background-color: white;
+
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 18.4px;
+
+    color: rgba(117, 120, 123, 1);
+}
+
+.Compare:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+input[type="text"],
+input[type="save"] {
+    padding-left: 10px; /* Adds padding to the left */
+    width: calc(100% - 10px); /* Subtracts the padding value from the total width */
+    box-sizing: border-box; /* Includes padding and border in the element's total width */
+}
+
+/* Drag and Drop Area */
+.drag-drop {
+    width: 781px;
+    height: 256px;
+    background-color: #C4D600;
+    border: 2px dashed rgba(117, 120, 123, 1);
+    border-radius: 50px;
+    margin-left: 21px;
+    margin-top: 22px;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    position: relative;
+}
+
+.drag-drop h1 {
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 24px;
+    color: rgba(83, 86, 90, 1);
+    margin-bottom: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+#file-preview {
+    align-self: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#file-image {
+    max-height: 150px;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#file-name {
+    font-family: 'Helvetica';
+    font-weight: 300;
+    font-size: 16px;
+    color: rgba(83, 86, 90, 1);
+    margin-top: 10px;
+}
+
+#clear-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clear-button:hover {
+    background-color: #d32f2f;
+}
+
+#clear-button:active {
+    background-color: #b71c1c;
+}
+
+@keyframes greenPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 10px 10px rgba(0, 255, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+    }
+}
+
+.green-effect {
+    animation: greenPulse 1s infinite;
+}
+
+
+
+/* Стили для таблицы на странице панели админа*/
+table {
+    border-collapse: collapse;
+    width: 1536px;
+  }
+  
+    th, td {
+    text-align: center;
+    vertical-align: middle;
+    width: 100px;  /* Задаем фиксированную ширину ячеек */
+    height: 70px;  /* Задаем фиксированную высоту ячеек */
+    font-family: 'Helvetica';
+  }
+
+  tr:nth-child(even) {
+    background-color: #C4D600; /* Белый фон для четных строк */
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #FFFFFF;/* Зеленый фон для нечетных строк */
+  }
+
+.admin-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 0, 0.26);
+    height: 80px;
+    width: 1536px;
+    margin-left: calc(50% - 1536px/2 + 0.5px);
+
+    font-family: 'Antic Didone';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    color: #FFFFFF;
+}
+
+
+/* Стиль для таблицы в project */
+.project-table {
+    border-collapse: collapse;
+  }
+  
+.project-table th, td {
+    /* border: 2px solid black; */
+    height: 128px;
+    text-align: center;
+    vertical-align: middle;
+    font-family: 'Helvetica';
+}
+
+tr:nth-child(even) {
+    background-color: #C4D600; /* Белый фон для четных строк */
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #FFFFFF;/* Зеленый фон для нечетных строк */
+  }
+
+.requests-heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0, 0, 0, 0.26);
+    height: 80px;
+    width: 1536px;
+    margin-left: calc(50% - 1536px/2 + 0.5px);
+
+    font-family: 'Antic Didone';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    color: #FFFFFF;
+}
+
+/* Добавим стилей для ссылочек в таблице */
+
+.delete-link {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}
+
+.delete-link:active {
+    transform: scale(0.95);
+}
+
+
+.request-link {
+    color: black;
+    text-decoration: solid;
+    font-weight: bold;
+}
+
+.request-link:hover {
+    text-decoration: underline;
+}
+
+.request-link:active {
+    transform: scale(0.95);
+}
+
+
+/* Стили для графиков на странице реквеста */
+
+.graph-settings {
+    display: flex;
+    background-color: #C4D600;
+    height: 100px;
+    width: 1536px;
+    align-items: center;
+    
+}
+
+.Main_lists select {
+
+    border-radius: 50px;
+    border: groove  1px #53565A;;
+    height: 40px;
+    width: 180px;
+
+    margin-left: 10px;
+
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #53565A;
+
+    transition: height 1s ease-in-out
+}
+
+.Main_lists select:hover {
+    cursor: pointer;
+}
+
+.Main_lists option {
+    text-align: center;
+    border-radius: 50px;
+}
+
+
+.Main_lists input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+.checkbox-settings {
+    margin-left: 962.83px;
+    font: 300 18px/22px 'Helvetica';
+    color: #53565A;
+}
+
+.select-settings {
+    margin-left: 40px;
+    font: 300 18px/22px 'Helvetica';
+    color: #53565A;
+}
+
+
+.checkbox-settings {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .checkbox-settings input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #53565A;
+    margin-right: 8px;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+    
+  .checkbox-settings input[type="checkbox"]:checked {
+    border-color: #53565A;
+    background-color: red;
+  }
+  
+  .checkbox-settings input[type="checkbox"]:checked::before {
+    opacity: 1;
+  }
+  
+  .checkbox-settings label {
+    font-size: 14px;
+    color: #333;
+  }

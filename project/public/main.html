@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WYSIWYM</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./style/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antic+Didone&family=Oswald&family=Raleway:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">        
+            <ul class="navbar-menu" style="display: grid; align-items: center;">
+                <li class="logo">
+                    <a id="s7Logo"><img src="./style/images/S7 Logo.png" alt="s7logo" /></a>
+                </li>
+                <li class="Projects">
+                    <a href="#">Projects</a>
+                </li>
+                <li class="User_logo">
+                    <button id="userLogo">
+                        <img src="./style/images/User.png" alt="User_logo">
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="Main_content">
+        <div class="Intro_container">
+            <div class="Intro_content">
+                <h1 class="Main_heading">S7 Airlines</h1>
+                <h2 class="Main_info">
+                    We strive to look at familiar things in a new way, 
+                    rediscover the best of the planets every day and not 
+                    be afraid of experiments. Whether it's the color of 
+                    the planes or an advertising campaign, we are always 
+                    ready to do something that no one has dared to do yet.
+                </h2>
+                <button class="Sign_in_button" id="openModal"> Sign in </button>
+            </div>
+        </div>
+
+        <div class="sign-in" id="sign-in">
+            <form id="loginForm" class="sign-in-content">
+                <div class="sign-in_container">
+                    <div class="Login"> 
+                        <h1>Log in</h1>
+                    </div>
+                    <div class="User">
+                        <input type="text" id="loginUsername" placeholder="Your login">
+                        <input type="password" id="loginPassword" placeholder="Your password">
+                        <button type="submit" class="Submit" id="Submit">Submit</button>
+                        <!-- <a id="forgot_pass" href="#">Forgot password?</a> -->
+                        <button type="button" id="No_acc">Don't have an account?</button>
+                        <img class="plane-img" src="./style/images/plane.png" alt="plane :)">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="sign-up" id="sign-up">
+            <form id="registrationForm" class="sign-up-content">
+                <div class="sign-up-container">
+                    <div class="Reg">
+                        <h1>Registration</h1>
+                    </div>
+                    <div class="main-form">
+                        <input type="text" id="registerUsername" placeholder="Your login">
+                        <input type="text" id="registerEmail" placeholder="Your email">
+                        <input type="password" id="registerPassword" placeholder="Your password">
+                        <input type="password" id="registerRepeatPassword" placeholder="Repeat password">
+                        <button type="submit" class="Sbmt" id="Sbmt">Submit</button>
+                        <button type="button" id="have-acc">Already have an account?</button>
+                        <img class="plane_img" src="./style/images/plane.png" alt="plane :)">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+    </main>
+    <script src="./script/script.js"></script>
+</body>
+</html>
