@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta
 from pathlib import Path
-import os, uvicorn
+import os, uvicorn, subprocess
 
 DATABASE_URL = "sqlite:///./app/users.db"
 REQUEST_DATABASE_URL = "sqlite:///./app/requests.db"
@@ -30,6 +30,7 @@ app.mount("/style", StaticFiles(directory=project_root / "public" / "style"), na
 app.mount("/script", StaticFiles(directory=project_root / "public" / "script"), name="script")
 app.mount("/images", StaticFiles(directory=project_root / "public" / "style" /"images"), name="images")
 app.mount("/files", StaticFiles(directory=project_root / "app" / "Files"), name="files")
+app.mount("/ML", StaticFiles(directory=project_root / "app" / "ML"), name="ML")
 
 # Для Live Server
 
@@ -59,10 +60,10 @@ class Request(Base):
     __tablename__ = "requests"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, index=True)
-    project_name = Column(String, unique=True, index=True)
+    project_name = Column(String, index=True)
     created_at = Column(DateTime, default=get_corrected_time)
     onboard_number = Column(String)
-    linkname = Column(String, unique=True, index=True)
+    linkname = Column(String, index=True)
 
 Base.metadata.create_all(bind=engine)
 Base.metadata.create_all(bind=request_engine)
@@ -105,6 +106,7 @@ async def favicon():
 async def favicon():
     return FileResponse(project_root / "public" / "style" / "images" / "s7-airlines-white.svg")
 
+@app.get("/admin", response_class=FileResponse)
 async def read_admin():
     return FileResponse(project_root / "public" / "admin.html")
 
@@ -148,30 +150,44 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
     return {"username": db_user.username, "id": db_user.id, "email": db_user.email}
 
 @app.post("/upload")
-async def upload_file(Username: str = Form(...), onboardNumber: str = Form(...), projectName: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_request_db)): # onboardNumber: str = Form(...), projectName: str = Form(...),
-    # Проверка уникальности projectName
-    existing_project = db.query(Request).filter(Request.project_name == projectName).first()
-    if existing_project:
-        raise HTTPException(status_code=400, detail="project name already exists")
+async def upload_file(Username: str = Form(...), onboardNumber: str = Form(...), projectName: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_request_db)):   
     
-    # Проверка уникальности имени файла
-    existing_file = db.query(Request).filter(Request.linkname == file.filename).first()
-    if existing_file:
-        raise HTTPException(status_code=400, detail="filename already exists")
-    
-    user_folder = os.path.join("./app/Files", Username)
-    
+    user_folder = os.path.join("app", "Files", Username)
+    os.makedirs(user_folder, exist_ok=True)
+
     file_path = os.path.join(user_folder, file.filename)
 
     with open(file_path, "wb") as buffer:
         buffer.write(await file.read())
     
-    linkname = file.filename
+    linkname = os.path.splitext(file.filename)[0]  # Убираем расширение .csv
+    output_dir = user_folder  # Сохранение новых файлов в ту же директорию, где хранится file_path
+    aircraft = onboardNumber
+    py_path = os.path.join(project_root, 'app', 'ML', 'example_import.py')
+
+    # Проверка путей
+    if not os.path.exists(py_path):
+        raise HTTPException(status_code=500, detail=f"Script file not found: {py_path}")
+
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=500, detail=f"Uploaded file not found: {file_path}")
+
+    result = subprocess.run(["python", str(py_path), str(file_path), str(output_dir), str(aircraft), str(linkname)], capture_output=True, text=True)
+
+    if result.returncode != 0:
+        return {"status": "error", "message": result.stderr}
 
     new_request = Request(username=Username, project_name=projectName, onboard_number=onboardNumber, linkname=linkname)
     db.add(new_request)
     db.commit()
     db.refresh(new_request)
+
+    # Удаление загруженного файла
+    try:
+        os.remove(file_path)
+        print(f"Deleted file: {file_path}")
+    except Exception as e:
+        print(f"Error deleting file: {file_path}, {e}")
 
     return JSONResponse(status_code=200, content={"message": "File uploaded successfully!"})
 
