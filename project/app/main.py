@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta
 from pathlib import Path
 import os, uvicorn, subprocess
+import pandas as pd
 
 DATABASE_URL = "sqlite:///./app/users.db"
 REQUEST_DATABASE_URL = "sqlite:///./app/requests.db"
@@ -22,6 +23,15 @@ RequestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=reque
 Base = declarative_base()
 
 app = FastAPI()
+
+def get_expected_columns() -> list:
+    file_path = os.path.join("app", "DATA", "X_train.csv")
+    try:
+        df = pd.read_csv(file_path)
+        return df.columns.tolist()
+    except Exception as e:
+        print(f"Error reading the reference file: {e}")
+        return []
 
 # Путь к корневой директории проекта
 project_root = Path(__file__).parent.parent
@@ -151,6 +161,15 @@ async def login(user: UserLogin, db: Session = Depends(get_db)):
 
 @app.post("/upload")
 async def upload_file(Username: str = Form(...), onboardNumber: str = Form(...), projectName: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_request_db)):   
+
+    # Проверка структуры загружаемого файла
+    uploaded_df = pd.read_csv(file.file)
+    expected_columns = get_expected_columns()
+    if list(uploaded_df.columns) != expected_columns:
+        raise HTTPException(status_code=400, detail="Invalid file structure. The columns do not match the expected format.")
+    
+    # Перематываем файл обратно в начало
+    file.file.seek(0)
     
     user_folder = os.path.join("app", "Files", Username)
     os.makedirs(user_folder, exist_ok=True)
@@ -171,13 +190,17 @@ async def upload_file(Username: str = Form(...), onboardNumber: str = Form(...),
 
     if not os.path.exists(file_path):
         raise HTTPException(status_code=500, detail=f"Uploaded file not found: {file_path}")
+    
+    # Получение текущего времени
+    created_at = get_corrected_time()
+    created_at_str = (datetime.utcnow() + timedelta(hours=3)).strftime("%d-%m-%Y-%H-%M-%S")
 
-    result = subprocess.run(["python", str(py_path), str(file_path), str(output_dir), str(aircraft), str(linkname)], capture_output=True, text=True)
+    result = subprocess.run(["python", str(py_path), str(file_path), str(output_dir), str(aircraft), str(linkname),str(created_at_str)], capture_output=True, text=True)
 
     if result.returncode != 0:
         return {"status": "error", "message": result.stderr}
 
-    new_request = Request(username=Username, project_name=projectName, onboard_number=onboardNumber, linkname=linkname)
+    new_request = Request(username=Username, project_name=projectName, onboard_number=onboardNumber, linkname=linkname, created_at=created_at)
     db.add(new_request)
     db.commit()
     db.refresh(new_request)
@@ -212,16 +235,16 @@ async def delete_user(user_id: int, db: Session = Depends(get_db), request_db: S
     user_requests = request_db.query(Request).filter(Request.username == user.username).all()
     for request in user_requests:
         user_folder = os.path.join("./app/Files", request.username)
-        file_path = os.path.join(user_folder, request.linkname)
-
+        
+        created_at_str = request.created_at.strftime("%d-%m-%Y-%H-%M-%S")
         filename_base = request.linkname
-        csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
-        csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
+        aircraft = request.onboard_number
+
+        # Новые пути к файлам с учетом формата имени
+        csv_file1 = os.path.join(user_folder, f"{filename_base}-{aircraft}-{created_at_str}-pos1.csv")
+        csv_file2 = os.path.join(user_folder, f"{filename_base}-{aircraft}-{created_at_str}-pos2.csv")
         
         # Remove the file if it exists
-        if os.path.exists(file_path):
-            os.remove(file_path)
-
         if os.path.exists(csv_file1):
             os.remove(csv_file1)
         if os.path.exists(csv_file2):
@@ -229,9 +252,8 @@ async def delete_user(user_id: int, db: Session = Depends(get_db), request_db: S
         
         request_db.delete(request)
 
-
     user_folder = os.path.join("./app/Files", user.username)
-    # Remove the direction if it exists
+    # Remove the directory if it exists
     if os.path.exists(user_folder):
         os.rmdir(user_folder)
 
@@ -248,19 +270,16 @@ async def delete_request(request_id: int, db: Session = Depends(get_request_db))
     if request is None:
         raise HTTPException(status_code=404, detail="Request not found")
     
-    
-    # Construct the file path
     user_folder = os.path.join("./app/Files", request.username)
-    file_path = os.path.join(user_folder, request.linkname)
-
+    created_at_str = request.created_at.strftime("%d-%m-%Y-%H-%M-%S")
     filename_base = request.linkname
-    csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
-    csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
+    aircraft = request.onboard_number
+
+    # Новые пути к файлам с учетом формата имени
+    csv_file1 = os.path.join(user_folder, f"{filename_base}-{aircraft}-{created_at_str}-pos1.csv")
+    csv_file2 = os.path.join(user_folder, f"{filename_base}-{aircraft}-{created_at_str}-pos2.csv")
     
     # Remove the file if it exists
-    if os.path.exists(file_path):
-        os.remove(file_path)
-
     if os.path.exists(csv_file1):
         os.remove(csv_file1)
     if os.path.exists(csv_file2):
@@ -269,6 +288,7 @@ async def delete_request(request_id: int, db: Session = Depends(get_request_db))
     db.delete(request)
     db.commit()
     return {"message": "Request deleted successfully"}
+
 
 
 @app.get("/requests/{username}")
@@ -287,11 +307,19 @@ async def get_request_csv_files(request_id: int, db: Session = Depends(get_reque
     # Находим пользователя по имени в реквесте
     username = request.username
 
+    # Получаем время создания и формируем строку
+    created_at_str = request.created_at.strftime("%d-%m-%Y-%H-%M-%S")
+
+    aircraft = request.onboard_number
+
     # Создаем пути к файлам
     user_folder = os.path.join('files', username)
     filename_base = request.linkname
-    csv_file1 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos1.csv")
-    csv_file2 = os.path.join(user_folder, f"{filename_base.replace('.csv', '')}-pos2.csv")
+
+    
+    # Новые пути к файлам с учетом формата имени
+    csv_file1 = os.path.join(user_folder, f"{filename_base}-{aircraft}-{created_at_str}-pos1.csv")
+    csv_file2 = os.path.join(user_folder, f"{filename_base}-{aircraft}-{created_at_str}-pos2.csv")
 
     # Путь на сервере
     csv_file1_path = project_root / 'app' / csv_file1
