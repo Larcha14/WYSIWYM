@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta
 from pathlib import Path
-import os, uvicorn, subprocess
+import os, uvicorn, subprocess, asyncio
 import pandas as pd
 
 DATABASE_URL = "sqlite:///./app/users.db"
@@ -333,7 +333,20 @@ async def get_request_csv_files(request_id: int, db: Session = Depends(get_reque
 
     return {"csv_file1": f"/{csv_file1}", "csv_file2": f"/{csv_file2}"}
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+async def main():
+    config = uvicorn.Config("main:app", host="0.0.0.0", port=8000, log_level="info")
+    server = uvicorn.Server(config)
+    try:
+        await server.serve()
+    except asyncio.CancelledError:
+        print("Server was cancelled")
+        raise
 
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Application interrupted")
+    except asyncio.CancelledError:
+        print("Application was cancelled during shutdown")
 
